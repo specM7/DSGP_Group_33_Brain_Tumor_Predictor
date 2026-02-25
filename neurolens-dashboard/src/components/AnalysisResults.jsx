@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Search, Layers, Download, ClipboardList, Eye, EyeOff } from 'lucide-react';
 
 /* ── Simulated detection data generator ── */
@@ -33,8 +33,14 @@ function generateDetectionData() {
 /* ── Heatmap drawing on canvas ── */
 function drawHeatmap(canvas, image, spots, showHeatmap) {
     const ctx = canvas.getContext('2d');
-    const w = canvas.width;
-    const h = canvas.height;
+
+    // Size canvas to the image, capped at 512 for performance
+    const maxSize = 512;
+    const scale = Math.min(maxSize / image.naturalWidth, maxSize / image.naturalHeight, 1);
+    const w = Math.round(image.naturalWidth * scale);
+    const h = Math.round(image.naturalHeight * scale);
+    canvas.width = w;
+    canvas.height = h;
 
     ctx.clearRect(0, 0, w, h);
 
@@ -176,19 +182,16 @@ export default function AnalysisResults({ uploadedImage }) {
     }, [uploadedImage]);
 
     // Re-draw canvas whenever detection, showHeatmap, or the image changes
-    const redraw = useCallback(() => {
-        const canvas = canvasRef.current;
-        const img = imageRef.current;
-        if (!canvas || !img || !detection) return;
-
-        canvas.width = img.naturalWidth || 512;
-        canvas.height = img.naturalHeight || 512;
-        drawHeatmap(canvas, img, detection.spots, showHeatmap);
-    }, [detection, showHeatmap]);
-
     useEffect(() => {
-        redraw();
-    }, [redraw]);
+        if (!detection) return;
+        // Wait for canvas to mount in the DOM
+        requestAnimationFrame(() => {
+            const canvas = canvasRef.current;
+            const img = imageRef.current;
+            if (!canvas || !img) return;
+            drawHeatmap(canvas, img, detection.spots, showHeatmap);
+        });
+    }, [detection, showHeatmap]);
 
     const hasImage = !!uploadedImage;
     const analysisReady = hasImage && detection && !isAnalyzing;
