@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import UploadPanel from './components/UploadPanel';
@@ -5,6 +6,8 @@ import ChatPanel from './components/ChatPanel';
 import AnalysisResults from './components/AnalysisResults';
 
 function App() {
+  const [uploadedImage, setUploadedImage] = useState(null);
+
   return (
     <div className="app">
       <Navbar />
@@ -17,11 +20,11 @@ function App() {
         </header>
 
         <div className="dashboard-top-row">
-          <UploadPanel />
+          <UploadPanel onImageUpload={setUploadedImage} />
           <ChatPanel />
         </div>
 
-        <AnalysisResults />
+        <AnalysisResults uploadedImage={uploadedImage} />
       </main>
     </div>
   );
