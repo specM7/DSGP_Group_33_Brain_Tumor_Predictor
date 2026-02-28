@@ -1,6 +1,9 @@
-import { Brain, Activity } from 'lucide-react';
+import { Brain, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 export default function Navbar() {
+    const { theme, toggleTheme } = useTheme();
+
     return (
         <nav className="navbar">
             <div className="navbar-inner">
@@ -13,15 +16,22 @@ export default function Navbar() {
                     </div>
                     <div className="navbar-divider" />
                     <span className="navbar-caption">
-                        <Activity size={14} className="caption-icon" />
                         AI-Powered MRI for Smarter Cancer Detection
                     </span>
                 </div>
                 <div className="navbar-right">
-                    <div className="navbar-status">
-                        <span className="status-dot" />
-                        <span className="status-label">System Online</span>
-                    </div>
+                    <button
+                        className="theme-toggle"
+                        onClick={toggleTheme}
+                        aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                        title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                    >
+                        <div className="toggle-track">
+                            <Sun size={13} className="toggle-icon-sun" />
+                            <Moon size={13} className="toggle-icon-moon" />
+                            <div className={`toggle-thumb ${theme === 'dark' ? 'dark' : ''}`} />
+                        </div>
+                    </button>
                 </div>
             </div>
         </nav>
