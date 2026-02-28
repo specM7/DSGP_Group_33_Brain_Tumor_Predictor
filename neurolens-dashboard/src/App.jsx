@@ -13,7 +13,7 @@ function App() {
       <Navbar />
       <main className="dashboard">
         <header className="dashboard-header">
-          <h1 className="dashboard-title">MRI Analysis Dashboard</h1>
+          <h1 className="dashboard-title">NeuroLens</h1>
           <p className="dashboard-subtitle">
             Upload a patient's MRI scan to initiate AI-driven clinical tumor detection and classification.
           </p>
