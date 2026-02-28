@@ -15,7 +15,7 @@ function App() {
         <header className="dashboard-header">
           <h1 className="dashboard-title">
             NeuroLens
-      
+
           </h1>
           <p className="dashboard-subtitle">
             Upload a patient's MRI scan to initiate AI-driven clinical tumor detection and classification.
