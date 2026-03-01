@@ -93,49 +93,166 @@ function drawHeatmap(canvas, image, spots, showHeatmap) {
     });
 }
 
-/* ── Static MRI placeholder (when no image uploaded) ── */
+/* ── Canvas-rendered MRI with heatmap placeholder ── */
 function MriPlaceholder() {
-    return (
-        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" className="mri-image">
-            <defs>
-                <radialGradient id="skull" cx="50%" cy="48%" r="42%">
-                    <stop offset="0%" stopColor="#4a4a4a" />
-                    <stop offset="70%" stopColor="#2a2a2a" />
-                    <stop offset="100%" stopColor="#111" />
-                </radialGradient>
-                <radialGradient id="brain" cx="50%" cy="48%" r="34%">
-                    <stop offset="0%" stopColor="#6b6b6b" />
-                    <stop offset="50%" stopColor="#555" />
-                    <stop offset="100%" stopColor="#333" />
-                </radialGradient>
-                <radialGradient id="tumor" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#ddd" />
-                    <stop offset="60%" stopColor="#aaa" />
-                    <stop offset="100%" stopColor="#777" />
-                </radialGradient>
-                <radialGradient id="ventricle" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#1a1a1a" />
-                    <stop offset="100%" stopColor="#222" />
-                </radialGradient>
-            </defs>
-            <rect width="400" height="400" fill="#0a0e17" />
-            <ellipse cx="200" cy="192" rx="155" ry="165" fill="url(#skull)" />
-            <ellipse cx="200" cy="192" rx="130" ry="140" fill="url(#brain)" />
-            <line x1="200" y1="48" x2="200" y2="320" stroke="#222" strokeWidth="2" opacity="0.6" />
-            <path d="M120,120 Q140,100 160,115 Q180,130 165,155" fill="none" stroke="#555" strokeWidth="1.5" opacity="0.5" />
-            <path d="M100,180 Q120,165 145,175 Q165,185 150,210" fill="none" stroke="#555" strokeWidth="1.5" opacity="0.5" />
-            <path d="M110,240 Q135,225 155,240 Q170,255 155,275" fill="none" stroke="#555" strokeWidth="1.5" opacity="0.5" />
-            <path d="M280,120 Q260,100 240,115 Q220,130 235,155" fill="none" stroke="#555" strokeWidth="1.5" opacity="0.5" />
-            <path d="M300,180 Q280,165 255,175 Q235,185 250,210" fill="none" stroke="#555" strokeWidth="1.5" opacity="0.5" />
-            <path d="M290,240 Q265,225 245,240 Q230,255 245,275" fill="none" stroke="#555" strokeWidth="1.5" opacity="0.5" />
-            <ellipse cx="175" cy="188" rx="22" ry="10" fill="url(#ventricle)" transform="rotate(-15 175 188)" />
-            <ellipse cx="225" cy="188" rx="22" ry="10" fill="url(#ventricle)" transform="rotate(15 225 188)" />
-            <ellipse cx="200" cy="200" rx="4" ry="12" fill="#1a1a1a" />
-            <ellipse cx="260" cy="130" rx="28" ry="24" fill="url(#tumor)" opacity="0.85" />
-            <ellipse cx="260" cy="130" rx="20" ry="16" fill="#ccc" opacity="0.4" />
-            <circle cx="260" cy="130" r="38" fill="none" stroke="#ef4444" strokeWidth="2" strokeDasharray="4 3" opacity="0.9" />
-        </svg>
-    );
+    const cRef = useRef(null);
+
+    useEffect(() => {
+        const canvas = cRef.current;
+        if (!canvas) return;
+        const S = 512;
+        canvas.width = S;
+        canvas.height = S;
+        const ctx = canvas.getContext('2d');
+        const cx = S / 2, cy = S / 2 - 10;
+
+        // Dark background
+        ctx.fillStyle = '#070b14';
+        ctx.fillRect(0, 0, S, S);
+
+        // Helper: draw ellipse fill
+        const ellipse = (x, y, rx, ry, color, alpha = 1) => {
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.beginPath();
+            ctx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.restore();
+        };
+
+        // Outer skull
+        const skullGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 190);
+        skullGrad.addColorStop(0, '#5a5a5a');
+        skullGrad.addColorStop(0.7, '#3a3a3a');
+        skullGrad.addColorStop(1, '#181818');
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, 175, 190, 0, 0, Math.PI * 2);
+        ctx.fillStyle = skullGrad;
+        ctx.fill();
+
+        // Skull bone ring
+        const boneGrad = ctx.createRadialGradient(cx, cy, 140, cx, cy, 175);
+        boneGrad.addColorStop(0, 'rgba(160,160,170,0.15)');
+        boneGrad.addColorStop(0.5, 'rgba(200,200,210,0.25)');
+        boneGrad.addColorStop(1, 'rgba(100,100,110,0.1)');
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, 175, 190, 0, 0, Math.PI * 2);
+        ctx.fillStyle = boneGrad;
+        ctx.fill();
+
+        // Brain matter
+        const brainGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 150);
+        brainGrad.addColorStop(0, '#6a6a72');
+        brainGrad.addColorStop(0.5, '#505058');
+        brainGrad.addColorStop(0.85, '#38383f');
+        brainGrad.addColorStop(1, '#282830');
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, 148, 158, 0, 0, Math.PI * 2);
+        ctx.fillStyle = brainGrad;
+        ctx.fill();
+
+        // Midline fissure
+        ctx.strokeStyle = 'rgba(30,30,35,0.7)';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - 165);
+        ctx.lineTo(cx, cy + 165);
+        ctx.stroke();
+
+        // Sulci (brain folds) — left side
+        ctx.strokeStyle = 'rgba(50,50,55,0.6)';
+        ctx.lineWidth = 1.8;
+        const sulci = [
+            [[120, 105], [142, 90], [165, 100], [180, 120], [168, 145]],
+            [[98, 170], [120, 155], [148, 162], [168, 175], [152, 200]],
+            [[105, 230], [132, 215], [158, 228], [172, 248], [158, 268]],
+            [[115, 290], [138, 278], [158, 285], [168, 300]],
+            // Right side
+            [[392, 105], [370, 90], [347, 100], [332, 120], [344, 145]],
+            [[414, 170], [392, 155], [364, 162], [344, 175], [360, 200]],
+            [[407, 230], [380, 215], [354, 228], [340, 248], [354, 268]],
+            [[397, 290], [374, 278], [354, 285], [344, 300]],
+        ];
+        sulci.forEach(pts => {
+            ctx.beginPath();
+            ctx.moveTo(pts[0][0], pts[0][1]);
+            for (let i = 1; i < pts.length - 1; i++) {
+                const xc = (pts[i][0] + pts[i + 1][0]) / 2;
+                const yc = (pts[i][1] + pts[i + 1][1]) / 2;
+                ctx.quadraticCurveTo(pts[i][0], pts[i][1], xc, yc);
+            }
+            ctx.stroke();
+        });
+
+        // Ventricles (dark butterfly shape)
+        ellipse(cx - 30, cy + 5, 26, 11, '#1a1a1e', 0.9);
+        ellipse(cx + 30, cy + 5, 26, 11, '#1a1a1e', 0.9);
+        ellipse(cx, cy + 10, 5, 16, '#151518', 0.95);
+
+        // Small calcification spot (bottom-left)
+        ellipse(cx - 50, cy + 80, 8, 8, '#aaa', 0.3);
+
+        // ── TUMOR mass (right hemisphere, large) ──
+        const tumorX = cx + 55, tumorY = cy - 20;
+        const tumorGrad = ctx.createRadialGradient(tumorX, tumorY, 0, tumorX, tumorY, 80);
+        tumorGrad.addColorStop(0, 'rgba(180,170,155,0.85)');
+        tumorGrad.addColorStop(0.4, 'rgba(150,140,125,0.7)');
+        tumorGrad.addColorStop(0.7, 'rgba(110,105,95,0.5)');
+        tumorGrad.addColorStop(1, 'rgba(70,65,60,0)');
+        ctx.beginPath();
+        ctx.ellipse(tumorX, tumorY, 75, 68, -0.15, 0, Math.PI * 2);
+        ctx.fillStyle = tumorGrad;
+        ctx.fill();
+
+        // ── HEATMAP OVERLAY ──
+        const heatCanvas = document.createElement('canvas');
+        heatCanvas.width = S;
+        heatCanvas.height = S;
+        const hctx = heatCanvas.getContext('2d');
+
+        // Main tumor hotspot
+        const drawSpot = (sx, sy, sr, intensity) => {
+            const g = hctx.createRadialGradient(sx, sy, 0, sx, sy, sr);
+            g.addColorStop(0, `rgba(255, 0, 0, ${intensity * 0.9})`);
+            g.addColorStop(0.2, `rgba(255, 60, 0, ${intensity * 0.75})`);
+            g.addColorStop(0.4, `rgba(255, 180, 0, ${intensity * 0.5})`);
+            g.addColorStop(0.6, `rgba(100, 255, 40, ${intensity * 0.3})`);
+            g.addColorStop(0.8, `rgba(0, 100, 255, ${intensity * 0.15})`);
+            g.addColorStop(1, 'rgba(0, 0, 255, 0)');
+            hctx.fillStyle = g;
+            hctx.fillRect(0, 0, S, S);
+        };
+
+        drawSpot(tumorX, tumorY, 110, 0.95);
+        drawSpot(tumorX + 20, tumorY - 15, 60, 0.5);
+        drawSpot(tumorX - 15, tumorY + 25, 50, 0.4);
+        // Small secondary spot
+        drawSpot(cx - 45, cy + 75, 30, 0.25);
+
+        ctx.globalAlpha = 0.6;
+        ctx.drawImage(heatCanvas, 0, 0);
+        ctx.globalAlpha = 1.0;
+
+        // Detection dashed circle
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 2.5;
+        ctx.setLineDash([6, 4]);
+        ctx.beginPath();
+        ctx.ellipse(tumorX, tumorY, 88, 80, -0.15, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Subtle vignette
+        const vig = ctx.createRadialGradient(cx, cy, S * 0.3, cx, cy, S * 0.52);
+        vig.addColorStop(0, 'transparent');
+        vig.addColorStop(1, 'rgba(0,0,0,0.5)');
+        ctx.fillStyle = vig;
+        ctx.fillRect(0, 0, S, S);
+
+    }, []);
+
+    return <canvas ref={cRef} className="mri-image heatmap-canvas" />;
 }
 
 /* ── Heatmap Legend ── */
