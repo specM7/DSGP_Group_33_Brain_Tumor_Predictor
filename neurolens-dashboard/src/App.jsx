@@ -4,13 +4,20 @@ import Navbar from './components/Navbar';
 import UploadPanel from './components/UploadPanel';
 import ChatPanel from './components/ChatPanel';
 import AnalysisResults from './components/AnalysisResults';
+import LoginPage from './components/LoginPage';
+import './components/LoginPage.css';
 
 function App() {
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [user, setUser] = useState(null);
+
+  if (!user) {
+    return <LoginPage onLogin={setUser} />;
+  }
 
   return (
     <div className="app">
-      <Navbar />
+      <Navbar user={user} onLogout={() => setUser(null)} />
       <main className="dashboard">
         <header className="dashboard-header">
           <h1 className="dashboard-title">

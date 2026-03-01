@@ -1,7 +1,7 @@
-import { Brain, Sun, Moon } from 'lucide-react';
+import { Brain, Sun, Moon, LogOut } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
-export default function Navbar() {
+export default function Navbar({ user, onLogout }) {
     const { theme, toggleTheme } = useTheme();
 
     return (
@@ -32,6 +32,23 @@ export default function Navbar() {
                             <div className={`toggle-thumb ${theme === 'dark' ? 'dark' : ''}`} />
                         </div>
                     </button>
+
+                    {user && (
+                        <div className="navbar-user-area">
+                            <div className="navbar-avatar">
+                                {(user.name || user.email || 'U').charAt(0).toUpperCase()}
+                            </div>
+                            <span className="navbar-username">{user.name || user.email}</span>
+                            <button
+                                className="navbar-logout-btn"
+                                onClick={onLogout}
+                                title="Sign out"
+                                aria-label="Sign out"
+                            >
+                                <LogOut size={16} />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </nav>

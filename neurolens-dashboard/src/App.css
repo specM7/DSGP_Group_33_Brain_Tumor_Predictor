@@ -950,6 +950,64 @@
 }
 
 /* ===========================
+   NAVBAR USER AREA
+   =========================== */
+.navbar-user-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left: 1px solid var(--color-border);
+}
+
+.navbar-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  background: var(--brand-icon-bg);
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.2);
+}
+
+.navbar-username {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navbar-logout-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  transition: all var(--transition);
+}
+
+.navbar-logout-btn:hover {
+  border-color: var(--color-accent-red);
+  color: var(--color-accent-red);
+  background: rgba(239, 68, 68, 0.06);
+  transform: scale(1.08);
+}
+
+/* ===========================
    RESPONSIVE
    =========================== */
 @media (max-width: 1024px) {
