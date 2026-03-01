@@ -136,55 +136,90 @@ export default function LoginPage({ onLogin }) {
             </button>
 
             <div className="login-container">
-                {/* Left - Branding */}
+                {/* Left - Anime Brain Animation */}
                 <div className="login-brand-side">
-                    <div className="login-brand-content">
-                        <div className="login-logo">
-                            <div className="login-logo-icon">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M12 2a10 10 0 0110 10c0 5.52-4.48 10-10 10S2 17.52 2 12" />
-                                    <circle cx="12" cy="12" r="3" />
-                                    <path d="M12 2c2.5 3.5 4 7.5 4 10" />
-                                    <path d="M12 2c-2.5 3.5-4 7.5-4 10" />
-                                </svg>
-                            </div>
-                            <span className="login-logo-text">NeuroLens</span>
-                        </div>
+                    <div className="login-anime-scene">
+                        {/* Floating particles */}
+                        {[...Array(20)].map((_, i) => (
+                            <div key={i} className={`anime-particle p-${i}`} />
+                        ))}
 
-                        <h1 className="login-hero-title">
-                            AI-Powered<br />
-                            <span className="login-hero-accent">Brain Tumor</span><br />
-                            Detection
-                        </h1>
+                        {/* Orbiting rings */}
+                        <div className="anime-orbit orbit-1" />
+                        <div className="anime-orbit orbit-2" />
+                        <div className="anime-orbit orbit-3" />
 
-                        <p className="login-hero-desc">
-                            Advanced deep learning analysis for MRI scans with clinical-grade accuracy and real-time diagnostic insights.
-                        </p>
+                        {/* Central brain glow */}
+                        <div className="anime-brain-glow" />
+                        <div className="anime-brain-glow glow-2" />
 
-                        <div className="login-stats-row">
-                            <div className="login-stat">
-                                <span className="login-stat-value">98.7%</span>
-                                <span className="login-stat-label">Accuracy</span>
-                            </div>
-                            <div className="login-stat-divider" />
-                            <div className="login-stat">
-                                <span className="login-stat-value">2.3s</span>
-                                <span className="login-stat-label">Avg. Scan</span>
-                            </div>
-                            <div className="login-stat-divider" />
-                            <div className="login-stat">
-                                <span className="login-stat-value">50K+</span>
-                                <span className="login-stat-label">Scans</span>
-                            </div>
-                        </div>
+                        {/* Brain SVG */}
+                        <svg className="anime-brain-svg" viewBox="0 0 200 200" fill="none">
+                            {/* Left hemisphere */}
+                            <path d="M100 30 C70 30, 40 50, 35 80 C30 110, 45 140, 60 155 C70 165, 80 170, 100 170"
+                                stroke="url(#brainGrad1)" strokeWidth="2" fill="none" className="brain-path brain-path-1" />
+                            <path d="M100 45 C78 45, 55 60, 50 85 C46 105, 55 130, 68 142 C76 150, 86 155, 100 155"
+                                stroke="url(#brainGrad2)" strokeWidth="1.5" fill="none" className="brain-path brain-path-2" />
+                            {/* Right hemisphere */}
+                            <path d="M100 30 C130 30, 160 50, 165 80 C170 110, 155 140, 140 155 C130 165, 120 170, 100 170"
+                                stroke="url(#brainGrad1)" strokeWidth="2" fill="none" className="brain-path brain-path-3" />
+                            <path d="M100 45 C122 45, 145 60, 150 85 C154 105, 145 130, 132 142 C124 150, 114 155, 100 155"
+                                stroke="url(#brainGrad2)" strokeWidth="1.5" fill="none" className="brain-path brain-path-4" />
+                            {/* Inner folds */}
+                            <path d="M65 75 C75 65, 90 68, 100 75 C110 68, 125 65, 135 75"
+                                stroke="url(#brainGrad3)" strokeWidth="1.5" fill="none" className="brain-path brain-path-5" />
+                            <path d="M58 95 C72 85, 88 90, 100 95 C112 90, 128 85, 142 95"
+                                stroke="url(#brainGrad3)" strokeWidth="1.5" fill="none" className="brain-path brain-path-6" />
+                            <path d="M55 115 C70 108, 85 112, 100 115 C115 112, 130 108, 145 115"
+                                stroke="url(#brainGrad3)" strokeWidth="1.5" fill="none" className="brain-path brain-path-7" />
+                            <path d="M62 135 C73 128, 87 132, 100 135 C113 132, 127 128, 138 135"
+                                stroke="url(#brainGrad3)" strokeWidth="1.5" fill="none" className="brain-path brain-path-8" />
+                            {/* Center line */}
+                            <line x1="100" y1="30" x2="100" y2="170" stroke="url(#brainGrad2)" strokeWidth="1" className="brain-center-line" />
+
+                            {/* Synapse nodes */}
+                            {[[65, 75], [135, 75], [58, 95], [142, 95], [55, 115], [145, 115], [62, 135], [138, 135], [100, 30], [100, 170], [35, 80], [165, 80]].map(([cx, cy], i) => (
+                                <circle key={i} cx={cx} cy={cy} r="3" fill="url(#nodeGrad)" className={`synapse-node node-${i}`} />
+                            ))}
+
+                            {/* Gradient definitions */}
+                            <defs>
+                                <linearGradient id="brainGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#60a5fa" />
+                                    <stop offset="100%" stopColor="#a78bfa" />
+                                </linearGradient>
+                                <linearGradient id="brainGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#818cf8" />
+                                    <stop offset="100%" stopColor="#06b6d4" />
+                                </linearGradient>
+                                <linearGradient id="brainGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.3" />
+                                    <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.8" />
+                                    <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.3" />
+                                </linearGradient>
+                                <radialGradient id="nodeGrad">
+                                    <stop offset="0%" stopColor="#fff" />
+                                    <stop offset="100%" stopColor="#60a5fa" />
+                                </radialGradient>
+                            </defs>
+                        </svg>
+
+                        {/* Scanning beam */}
+                        <div className="anime-scan-beam" />
                     </div>
 
-                    <div className="login-brand-footer">
-                        <span>🔒 HIPAA Compliant</span>
-                        <span>•</span>
-                        <span>FDA Reviewed</span>
-                        <span>•</span>
-                        <span>SOC 2 Type II</span>
+                    {/* Title overlay */}
+                    <div className="anime-title-overlay">
+                        <div className="anime-logo-row">
+                            <div className="login-logo-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M12 2a10 10 0 0110 10c0 5.52-4.48 10-10 10S2 17.52 2 12" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                            </div>
+                            <span className="anime-brand-name">NeuroLens</span>
+                        </div>
+                        <p className="anime-tagline">AI-Powered Neural Diagnostics</p>
                     </div>
                 </div>
 
