@@ -9,6 +9,7 @@ import './components/LoginPage.css';
 
 function App() {
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [prediction, setPrediction] = useState(null);
   const [user, setUser] = useState(null);
 
   if (!user) {
@@ -31,11 +32,11 @@ function App() {
         </header>
 
         <div className="dashboard-top-row">
-          <UploadPanel onImageUpload={setUploadedImage} />
+          <UploadPanel onImageUpload={setUploadedImage} onPrediction={setPrediction} />
           <ChatPanel />
         </div>
 
-        <AnalysisResults uploadedImage={uploadedImage} />
+        <AnalysisResults uploadedImage={uploadedImage} prediction={prediction} />
       </main>
     </div>
   );
