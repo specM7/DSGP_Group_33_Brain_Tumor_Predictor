@@ -254,7 +254,6 @@ function MriPlaceholder() {
 
     return <canvas ref={cRef} className="mri-image heatmap-canvas" />;
 }
-
 /* ── Heatmap Legend ── */
 function HeatmapLegend() {
     return (
