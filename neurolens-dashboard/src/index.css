@@ -1,32 +1,32 @@
 /* ===== CSS Custom Properties — Light Theme (default) ===== */
 :root,
 [data-theme="light"] {
-  /* Primary palette */
-  --color-primary: #1a8cff;
-  --color-primary-dark: #0070e0;
-  --color-primary-light: #e8f4ff;
-  --color-primary-glow: rgba(26, 140, 255, 0.2);
+  /* Primary palette — indigo-violet */
+  --color-primary: #6366f1;
+  --color-primary-dark: #4f46e5;
+  --color-primary-light: rgba(99, 102, 241, 0.1);
+  --color-primary-glow: rgba(99, 102, 241, 0.2);
 
   /* Accents */
-  --color-accent-green: #22c55e;
+  --color-accent-green: #10b981;
   --color-accent-red: #ef4444;
   --color-accent-cyan: #06b6d4;
   --color-accent-purple: #a855f7;
 
-  /* Surfaces */
-  --color-bg: #f5f7fa;
-  --color-surface: #ffffff;
-  --color-surface-raised: #f1f5f9;
+  /* Surfaces — glassmorphism */
+  --color-bg: #f0f2f8;
+  --color-surface: rgba(255, 255, 255, 0.72);
+  --color-surface-raised: rgba(241, 245, 249, 0.85);
 
   /* Text */
   --color-text: #1e293b;
-  --color-text-secondary: #64748b;
+  --color-text-secondary: #475569;
   --color-text-muted: #94a3b8;
 
   /* Borders */
-  --color-border: #e2e8f0;
-  --color-border-light: #f1f5f9;
-  --color-border-glow: rgba(26, 140, 255, 0.25);
+  --color-border: rgba(148, 163, 184, 0.22);
+  --color-border-light: rgba(241, 245, 249, 0.6);
+  --color-border-glow: rgba(99, 102, 241, 0.3);
 
   /* Typography */
   --font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -38,61 +38,66 @@
   --radius-xl: 20px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.1);
+  /* Shadows — colored with indigo tinting */
+  --shadow-sm: 0 1px 3px rgba(99, 102, 241, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(99, 102, 241, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 32px rgba(99, 102, 241, 0.1), 0 4px 12px rgba(0, 0, 0, 0.06);
 
   /* Transitions */
   --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Light-specific */
-  --navbar-bg: rgba(255, 255, 255, 0.85);
-  --navbar-border-glow: rgba(26, 140, 255, 0.15);
-  --chat-status-bg: linear-gradient(135deg, #1a8cff, #0070e0);
-  --brand-gradient: linear-gradient(135deg, #1e293b, #475569);
-  --brand-icon-bg: linear-gradient(135deg, #1a8cff, #0055cc);
-  --brand-icon-shadow: 0 0 12px rgba(26, 140, 255, 0.3);
-  --title-gradient: linear-gradient(135deg, #1e293b, #1a8cff);
-  --version-bg: linear-gradient(135deg, rgba(26, 140, 255, 0.1), rgba(168, 85, 247, 0.08));
-  --version-border: rgba(26, 140, 255, 0.2);
-  --version-color: #1a8cff;
-  --accent-line-gradient: linear-gradient(90deg, #1a8cff, #a855f7);
-  --btn-primary-bg: linear-gradient(135deg, #1a8cff, #0070e0);
-  --btn-primary-hover: linear-gradient(135deg, #0070e0, #0055cc);
-  --btn-primary-shadow: 0 2px 12px rgba(26, 140, 255, 0.3);
-  --btn-primary-hover-shadow: 0 4px 20px rgba(26, 140, 255, 0.4);
-  --user-bubble-bg: linear-gradient(135deg, #1a8cff, #0070e0);
-  --user-bubble-shadow: 0 2px 12px rgba(26, 140, 255, 0.2);
-  --chat-status-bar-bg: linear-gradient(135deg, #1a8cff, #0070e0);
-  --chat-shimmer: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  /* Light-specific — premium */
+  --navbar-bg: rgba(255, 255, 255, 0.6);
+  --navbar-border-glow: rgba(99, 102, 241, 0.2);
+  --chat-status-bg: linear-gradient(135deg, #6366f1, #8b5cf6);
+  --brand-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
+  --brand-icon-bg: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+  --brand-icon-shadow: 0 0 16px rgba(99, 102, 241, 0.35);
+  --title-gradient: linear-gradient(135deg, #4f46e5, #7c3aed, #06b6d4);
+  --version-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(168, 85, 247, 0.1));
+  --version-border: rgba(99, 102, 241, 0.2);
+  --version-color: #6366f1;
+  --accent-line-gradient: linear-gradient(90deg, #6366f1, #a855f7, #06b6d4);
+  --btn-primary-bg: linear-gradient(135deg, #6366f1, #7c3aed);
+  --btn-primary-hover: linear-gradient(135deg, #4f46e5, #6d28d9);
+  --btn-primary-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  --btn-primary-hover-shadow: 0 6px 24px rgba(99, 102, 241, 0.45);
+  --user-bubble-bg: linear-gradient(135deg, #6366f1, #7c3aed);
+  --user-bubble-shadow: 0 2px 12px rgba(99, 102, 241, 0.25);
+  --chat-status-bar-bg: linear-gradient(135deg, #6366f1, #7c3aed);
+  --chat-shimmer: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   --status-name-color: #fff;
-  --status-icon-bg: rgba(255, 255, 255, 0.2);
-  --input-focus-shadow: 0 0 0 3px rgba(26, 140, 255, 0.1);
-  --send-btn-bg: linear-gradient(135deg, #1a8cff, #0070e0);
-  --send-btn-shadow: 0 2px 8px rgba(26, 140, 255, 0.3);
+  --status-icon-bg: rgba(255, 255, 255, 0.22);
+  --input-focus-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  --send-btn-bg: linear-gradient(135deg, #6366f1, #7c3aed);
+  --send-btn-shadow: 0 2px 10px rgba(99, 102, 241, 0.35);
   --mri-viewer-bg: #0a0e17;
   --vignette: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
   --detected-shadow: 0 0 16px rgba(239, 68, 68, 0.35);
   --toolbar-btn-bg: rgba(255, 255, 255, 0.12);
   --toolbar-btn-hover: rgba(255, 255, 255, 0.25);
   --toolbar-btn-color: #cbd5e1;
-  --toolbar-active-bg: rgba(26, 140, 255, 0.4);
-  --toolbar-active-shadow: 0 0 14px rgba(26, 140, 255, 0.3);
-  --confidence-bar-bg: linear-gradient(90deg, #22c55e, #16a34a);
-  --confidence-glow: 0 0 20px rgba(34, 197, 94, 0.2);
-  --msg-avatar-bg: linear-gradient(135deg, rgba(26, 140, 255, 0.12), rgba(168, 85, 247, 0.08));
-  --msg-avatar-border: rgba(26, 140, 255, 0.12);
-  --upload-icon-bg: linear-gradient(135deg, rgba(26, 140, 255, 0.1), rgba(168, 85, 247, 0.06));
-  --upload-icon-border: rgba(26, 140, 255, 0.12);
-  --dropzone-border: rgba(0, 0, 0, 0.12);
-  --dropzone-hover-border: rgba(26, 140, 255, 0.3);
-  --dropzone-hover-bg: rgba(26, 140, 255, 0.03);
-  --dropzone-drag-bg: rgba(26, 140, 255, 0.06);
-  --quick-action-hover-bg: rgba(26, 140, 255, 0.04);
+  --toolbar-active-bg: rgba(99, 102, 241, 0.4);
+  --toolbar-active-shadow: 0 0 14px rgba(99, 102, 241, 0.3);
+  --confidence-bar-bg: linear-gradient(90deg, #10b981, #06b6d4);
+  --confidence-glow: 0 0 20px rgba(16, 185, 129, 0.25);
+  --msg-avatar-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(168, 85, 247, 0.1));
+  --msg-avatar-border: rgba(99, 102, 241, 0.15);
+  --upload-icon-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.08));
+  --upload-icon-border: rgba(99, 102, 241, 0.15);
+  --dropzone-border: rgba(99, 102, 241, 0.18);
+  --dropzone-hover-border: rgba(99, 102, 241, 0.35);
+  --dropzone-hover-bg: rgba(99, 102, 241, 0.04);
+  --dropzone-drag-bg: rgba(99, 102, 241, 0.08);
+  --quick-action-hover-bg: rgba(99, 102, 241, 0.06);
   --legend-bg: rgba(0, 0, 0, 0.65);
   --legend-border: rgba(255, 255, 255, 0.06);
+
+  /* Decorative blobs for light mode background */
+  --light-blob-1: rgba(99, 102, 241, 0.12);
+  --light-blob-2: rgba(168, 85, 247, 0.1);
+  --light-blob-3: rgba(6, 182, 212, 0.08);
 }
 
 /* ===== Dark Theme ===== */

@@ -1041,3 +1041,182 @@
     font-size: 1.35rem;
   }
 }
+
+/* ===========================
+   LIGHT MODE ENHANCEMENTS
+   =========================== */
+
+/* Gradient background with decorative floating blobs */
+[data-theme="light"] .app {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(145deg, #eef2ff 0%, #f0f2f8 30%, #faf5ff 60%, #ecfeff 100%);
+}
+
+[data-theme="light"] .app::before {
+  content: '';
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--light-blob-1) 0%, transparent 70%);
+  top: -100px;
+  right: -100px;
+  pointer-events: none;
+  z-index: 0;
+  animation: drift-blob 18s ease-in-out infinite;
+}
+
+[data-theme="light"] .app::after {
+  content: '';
+  position: fixed;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--light-blob-2) 0%, transparent 70%);
+  bottom: -80px;
+  left: -80px;
+  pointer-events: none;
+  z-index: 0;
+  animation: drift-blob 22s ease-in-out 3s infinite reverse;
+}
+
+@keyframes drift-blob {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  25% {
+    transform: translate(40px, -30px) scale(1.05);
+  }
+
+  50% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+
+  75% {
+    transform: translate(30px, 40px) scale(1.03);
+  }
+}
+
+/* Frosted glass navbar */
+[data-theme="light"] .navbar {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  box-shadow: 0 1px 8px rgba(99, 102, 241, 0.05);
+}
+
+[data-theme="light"] .navbar::after {
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.15), transparent);
+}
+
+/* Glassmorphism panels */
+[data-theme="light"] .upload-panel,
+[data-theme="light"] .chat-panel {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 24px rgba(99, 102, 241, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .upload-panel:hover,
+[data-theme="light"] .chat-panel:hover {
+  border-color: rgba(99, 102, 241, 0.2);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Upload dropzone in light mode */
+[data-theme="light"] .upload-dropzone {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="light"] .upload-dropzone:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  background: rgba(99, 102, 241, 0.03);
+}
+
+/* Glassmorphism analysis card */
+[data-theme="light"] .analysis-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 24px rgba(99, 102, 241, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .analysis-card:hover {
+  border-color: rgba(99, 102, 241, 0.2);
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* Metric cards */
+[data-theme="light"] .metric-card {
+  background: rgba(241, 245, 249, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="light"] .metric-card:hover {
+  border-color: rgba(99, 102, 241, 0.25);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.1);
+}
+
+/* Chat input area */
+[data-theme="light"] .chat-input-wrapper {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+[data-theme="light"] .chat-input-wrapper:focus-within {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: var(--color-primary);
+}
+
+/* Chat AI bubbles */
+[data-theme="light"] .chat-msg.ai .msg-bubble {
+  background: rgba(241, 245, 249, 0.7);
+  border-color: rgba(148, 163, 184, 0.15);
+}
+
+/* Quick action buttons */
+[data-theme="light"] .quick-action-btn {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+/* Format badges */
+[data-theme="light"] .format-badge {
+  background: rgba(99, 102, 241, 0.06);
+  border-color: rgba(99, 102, 241, 0.12);
+  color: var(--color-primary);
+}
+
+/* Ensure content sits above background blobs */
+[data-theme="light"] .navbar,
+[data-theme="light"] .dashboard {
+  position: relative;
+  z-index: 1;
+}
+
+/* Third decorative blob (cyan, center) */
+[data-theme="light"] .dashboard::before {
+  content: '';
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--light-blob-3) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: -1;
+  animation: drift-blob 25s ease-in-out 6s infinite;
+}
