@@ -114,7 +114,7 @@
     right: 0;
     z-index: 100;
     padding: 0 24px;
-    transition: all 0.4s ease;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nl-navbar-inner {
@@ -126,19 +126,58 @@
     height: 72px;
 }
 
+/* ── Scrolled state with glowing bottom border ── */
 .nl-navbar.scrolled {
-    background: rgba(5, 5, 16, 0.85);
-    backdrop-filter: blur(24px) saturate(1.4);
-    -webkit-backdrop-filter: blur(24px) saturate(1.4);
-    border-bottom: 1px solid rgba(99, 102, 241, 0.08);
+    background: rgba(5, 5, 16, 0.82);
+    backdrop-filter: blur(28px) saturate(1.6);
+    -webkit-backdrop-filter: blur(28px) saturate(1.6);
+    border-bottom: none;
+    box-shadow:
+        0 1px 0 0 rgba(99, 102, 241, 0.12),
+        0 4px 24px -4px rgba(0, 0, 0, 0.3),
+        inset 0 -1px 0 0 rgba(99, 102, 241, 0.06);
 }
 
+.nl-navbar.scrolled::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(99, 102, 241, 0.4),
+            rgba(6, 182, 212, 0.3),
+            rgba(168, 85, 247, 0.4),
+            transparent);
+    animation: nl-navbar-glow 4s ease-in-out infinite;
+}
+
+@keyframes nl-navbar-glow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ── Logo with hover scale + glow ── */
 .nl-logo {
     display: flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
     text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.nl-logo:hover {
+    transform: scale(1.03);
 }
 
 .nl-logo-icon {
@@ -152,13 +191,20 @@
     box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
     position: relative;
     overflow: hidden;
+    transition: box-shadow 0.4s ease;
+}
+
+.nl-logo:hover .nl-logo-icon {
+    box-shadow:
+        0 0 24px rgba(99, 102, 241, 0.5),
+        0 0 48px rgba(99, 102, 241, 0.15);
 }
 
 .nl-logo-icon::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), transparent);
     border-radius: inherit;
 }
 
@@ -167,6 +213,7 @@
     font-weight: 800;
     color: #fff;
     letter-spacing: -0.02em;
+    transition: all 0.3s ease;
 }
 
 .nl-logo-text span {
@@ -176,6 +223,7 @@
     background-clip: text;
 }
 
+/* ── Nav links with animated underline ── */
 .nl-nav-links {
     display: flex;
     align-items: center;
@@ -193,11 +241,33 @@
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+.nl-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--nl-gradient-1);
+    border-radius: 2px;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateX(-50%);
+    box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+    opacity: 0;
 }
 
 .nl-nav-link:hover {
     color: #fff;
-    background: rgba(99, 102, 241, 0.08);
+    background: rgba(99, 102, 241, 0.06);
+}
+
+.nl-nav-link:hover::after {
+    width: 60%;
+    opacity: 1;
 }
 
 .nl-nav-divider {
@@ -207,6 +277,7 @@
     margin: 0 8px;
 }
 
+/* ── CTA button with shimmer sweep ── */
 .nl-nav-cta {
     padding: 9px 22px;
     font-size: 13px;
@@ -219,7 +290,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
     font-family: inherit;
     position: relative;
@@ -229,19 +300,23 @@
 .nl-nav-cta::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
 }
 
 .nl-nav-cta:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 28px rgba(99, 102, 241, 0.45);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+        0 8px 32px rgba(99, 102, 241, 0.45),
+        0 0 0 1px rgba(99, 102, 241, 0.2);
 }
 
 .nl-nav-cta:hover::before {
-    opacity: 1;
+    left: 100%;
 }
 
 .nl-mobile-toggle {
