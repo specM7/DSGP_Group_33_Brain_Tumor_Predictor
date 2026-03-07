@@ -1114,6 +1114,149 @@
     }
 }
 
+/* ═══════════ FOUNDERS ═══════════ */
+.nl-founders-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 1024px) {
+    .nl-founders-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .nl-founders-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+.nl-founder-card {
+    text-align: center;
+    padding: 40px 24px 32px;
+    background: var(--nl-glass);
+    border: 1px solid var(--nl-glass-border);
+    border-radius: var(--nl-radius);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.nl-founder-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.25), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.nl-founder-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(99, 102, 241, 0.2);
+    box-shadow: 0 20px 60px -15px rgba(99, 102, 241, 0.15);
+}
+
+.nl-founder-card:hover::before {
+    opacity: 1;
+}
+
+/* Gradient ring around avatar */
+.nl-founder-avatar-ring {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    padding: 3px;
+    background: conic-gradient(from 0deg,
+            #6366f1,
+            #8b5cf6,
+            #06b6d4,
+            #22d3ee,
+            #a78bfa,
+            #6366f1);
+    margin: 0 auto 20px;
+    transition: all 0.5s ease;
+    animation: nl-ring-rotate 8s linear infinite paused;
+}
+
+.nl-founder-card:hover .nl-founder-avatar-ring {
+    animation-play-state: running;
+    box-shadow: 0 0 24px rgba(99, 102, 241, 0.3), 0 0 48px rgba(99, 102, 241, 0.1);
+}
+
+@keyframes nl-ring-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.nl-founder-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a1a3e, #0f0f2a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nl-founder-avatar span {
+    font-size: 22px;
+    font-weight: 800;
+    background: var(--nl-gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.02em;
+}
+
+.nl-founder-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+}
+
+.nl-founder-role {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--nl-accent-light);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+}
+
+/* Light mode founders */
+.nl-landing.nl-light .nl-founder-avatar {
+    background: linear-gradient(135deg, #f0f0ff, #e8e9fb);
+}
+
+.nl-landing.nl-light .nl-founder-name {
+    color: var(--nl-text);
+}
+
+.nl-landing.nl-light .nl-founder-role {
+    color: var(--nl-accent);
+}
+
+.nl-landing.nl-light .nl-founder-card {
+    background: var(--nl-glass);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.nl-landing.nl-light .nl-founder-card:hover {
+    box-shadow: 0 20px 50px -12px rgba(99, 102, 241, 0.1);
+}
+
 /* ═══════════ FOOTER ═══════════ */
 .nl-footer {
     position: relative;
