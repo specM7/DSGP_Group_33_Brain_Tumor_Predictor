@@ -1202,20 +1202,22 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: linear-gradient(135deg, #1a1a3e, #0f0f2a);
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.nl-founder-avatar span {
-    font-size: 22px;
-    font-weight: 800;
-    background: var(--nl-gradient-1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: 0.02em;
+.nl-founder-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.5s ease;
+}
+
+.nl-founder-card:hover .nl-founder-avatar img {
+    transform: scale(1.08);
 }
 
 .nl-founder-name {
@@ -1276,10 +1278,6 @@
 }
 
 /* Light mode founders */
-.nl-landing.nl-light .nl-founder-avatar {
-    background: linear-gradient(135deg, #f0f0ff, #e8e9fb);
-}
-
 .nl-landing.nl-light .nl-founder-name {
     color: var(--nl-text);
 }
