@@ -293,19 +293,6 @@ export default function LandingPage({ onGetStarted }) {
                             </button>
                         </div>
 
-                        <div ref={acc.ref} className="nl-hero-stats">
-                            {[
-                                { val: `${acc.count}%+`, label: 'Accuracy' },
-                                { val: `<${spd.count}s`, label: 'Analysis' },
-                                { val: types.count, label: 'Tumor Types' },
-                                { val: `${scans.count.toLocaleString()}+`, label: 'Scans Trained' },
-                            ].map((s, i) => (
-                                <div key={i} className="nl-stat">
-                                    <div className="nl-stat-value">{s.val}</div>
-                                    <div className="nl-stat-label">{s.label}</div>
-                                </div>
-                            ))}
-                        </div>
                     </div>
 
                     {/* Brain Visualization */}
