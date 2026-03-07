@@ -1235,6 +1235,19 @@
     opacity: 0.8;
 }
 
+.nl-founder-linkedin {
+    margin-top: 14px;
+    color: var(--nl-text-muted);
+    transition: all 0.3s ease;
+    opacity: 0.5;
+}
+
+.nl-founder-card:hover .nl-founder-linkedin {
+    color: #0a66c2;
+    opacity: 1;
+    transform: scale(1.15);
+}
+
 /* Light mode founders */
 .nl-landing.nl-light .nl-founder-avatar {
     background: linear-gradient(135deg, #f0f0ff, #e8e9fb);
