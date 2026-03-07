@@ -1223,3 +1223,235 @@
 html {
     scroll-behavior: smooth;
 }
+
+/* ═══════════════════════════════════════════════════════
+   ████  LIGHT  MODE  ████
+   Applied via .nl-landing.nl-light
+   ═══════════════════════════════════════════════════════ */
+
+.nl-landing.nl-light {
+    --nl-bg: #f8f9fc;
+    --nl-bg-secondary: #eef0f6;
+    --nl-surface: rgba(255, 255, 255, 0.7);
+    --nl-surface-border: rgba(99, 102, 241, 0.1);
+    --nl-text: #1e293b;
+    --nl-text-secondary: #64748b;
+    --nl-text-muted: #94a3b8;
+    --nl-accent: #6366f1;
+    --nl-accent-light: #4f46e5;
+    --nl-accent-dark: #4338ca;
+    --nl-cyan: #0891b2;
+    --nl-purple: #7c3aed;
+    --nl-blue: #2563eb;
+    --nl-gradient-1: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+    --nl-gradient-2: linear-gradient(135deg, #4f46e5, #6366f1);
+    --nl-glass: rgba(255, 255, 255, 0.65);
+    --nl-glass-border: rgba(99, 102, 241, 0.12);
+    --nl-glow: 0 0 80px rgba(99, 102, 241, 0.08);
+}
+
+/* ── Ambient orbs — lighter ── */
+.nl-landing.nl-light .nl-ambient::before {
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.07) 0%, transparent 70%);
+}
+
+.nl-landing.nl-light .nl-ambient::after {
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.05) 0%, transparent 70%);
+}
+
+/* ── Grid overlay — softer ── */
+.nl-landing.nl-light .nl-grid-overlay {
+    background-image:
+        linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+}
+
+/* ── Navbar ── */
+.nl-landing.nl-light .nl-navbar.scrolled {
+    background: rgba(248, 249, 252, 0.88);
+    border-bottom-color: rgba(99, 102, 241, 0.08);
+}
+
+.nl-landing.nl-light .nl-nav-link {
+    color: var(--nl-text-secondary);
+}
+
+.nl-landing.nl-light .nl-nav-link:hover {
+    color: var(--nl-accent);
+    background: rgba(99, 102, 241, 0.06);
+}
+
+.nl-landing.nl-light .nl-nav-divider {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.nl-landing.nl-light .nl-logo-text {
+    color: var(--nl-text);
+}
+
+/* ── Hero ── */
+.nl-landing.nl-light .nl-hero-title {
+    color: var(--nl-text);
+}
+
+.nl-landing.nl-light .nl-hero-badge {
+    background: rgba(99, 102, 241, 0.06);
+    border-color: rgba(99, 102, 241, 0.15);
+}
+
+.nl-landing.nl-light .nl-btn-secondary {
+    color: var(--nl-text);
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.nl-landing.nl-light .nl-btn-secondary:hover {
+    background: rgba(99, 102, 241, 0.06);
+    border-color: rgba(99, 102, 241, 0.25);
+    color: var(--nl-accent);
+}
+
+.nl-landing.nl-light .nl-stat-value {
+    background: var(--nl-gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ── Glass Cards ── */
+.nl-landing.nl-light .nl-glass-card {
+    background: var(--nl-glass);
+    border-color: rgba(99, 102, 241, 0.08);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.nl-landing.nl-light .nl-glass-card:hover {
+    border-color: rgba(99, 102, 241, 0.2);
+    box-shadow: 0 20px 50px -12px rgba(99, 102, 241, 0.1), 0 0 0 1px rgba(99, 102, 241, 0.08);
+}
+
+.nl-landing.nl-light .nl-card-title {
+    color: var(--nl-text);
+}
+
+.nl-landing.nl-light .nl-icon-box {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.12);
+    color: var(--nl-accent);
+}
+
+.nl-landing.nl-light .nl-glass-card:hover .nl-icon-box {
+    background: var(--nl-gradient-2);
+    color: #fff;
+}
+
+/* ── Section Headers ── */
+.nl-landing.nl-light .nl-section-title {
+    color: var(--nl-text);
+}
+
+.nl-landing.nl-light .nl-section-tag {
+    background: rgba(99, 102, 241, 0.06);
+    border-color: rgba(99, 102, 241, 0.12);
+    color: var(--nl-accent);
+}
+
+.nl-landing.nl-light .nl-section-alt {
+    background: rgba(99, 102, 241, 0.02);
+}
+
+/* ── Steps ── */
+.nl-landing.nl-light .nl-step-title {
+    color: var(--nl-text);
+}
+
+.nl-landing.nl-light .nl-step-label {
+    color: var(--nl-accent);
+}
+
+/* ── Brain visualization — keep glowy on both ── */
+.nl-landing.nl-light .nl-brain-glow {
+    opacity: 0.5;
+}
+
+.nl-landing.nl-light .nl-orbit-1 {
+    border-color: rgba(99, 102, 241, 0.12);
+}
+
+.nl-landing.nl-light .nl-orbit-2 {
+    border-color: rgba(6, 182, 212, 0.1);
+}
+
+.nl-landing.nl-light .nl-orbit-3 {
+    border-color: rgba(168, 85, 247, 0.06);
+}
+
+/* ── CTA ── */
+.nl-landing.nl-light .nl-cta::before {
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(99, 102, 241, 0.05), transparent);
+}
+
+.nl-landing.nl-light .nl-cta-title {
+    color: var(--nl-text);
+}
+
+/* ── Divider ── */
+.nl-landing.nl-light .nl-divider {
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+}
+
+/* ── Footer ── */
+.nl-landing.nl-light .nl-footer {
+    border-top-color: rgba(0, 0, 0, 0.06);
+}
+
+/* ── Mobile menu ── */
+.nl-landing.nl-light .nl-mobile-menu {
+    background: rgba(248, 249, 252, 0.97);
+    border-top-color: rgba(0, 0, 0, 0.06);
+}
+
+.nl-landing.nl-light .nl-mobile-link {
+    color: var(--nl-text-secondary);
+}
+
+.nl-landing.nl-light .nl-mobile-link:hover {
+    color: var(--nl-accent);
+    background: rgba(99, 102, 241, 0.06);
+}
+
+/* ═══════════ THEME TOGGLE BUTTON ═══════════ */
+.nl-theme-toggle {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--nl-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    flex-shrink: 0;
+}
+
+.nl-theme-toggle:hover {
+    background: rgba(99, 102, 241, 0.12);
+    border-color: rgba(99, 102, 241, 0.25);
+    color: var(--nl-accent-light);
+    transform: rotate(15deg);
+}
+
+.nl-landing.nl-light .nl-theme-toggle {
+    border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.03);
+    color: var(--nl-text-secondary);
+}
+
+.nl-landing.nl-light .nl-theme-toggle:hover {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.2);
+    color: var(--nl-accent);
+}
