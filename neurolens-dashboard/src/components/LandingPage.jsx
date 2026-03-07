@@ -3,7 +3,7 @@ import {
     Brain, Upload, Shield, MessageSquare, Search, ArrowRight,
     Menu, X, Zap, Database, Monitor, FlaskConical, Cpu, FileImage,
     Stethoscope, Building2, GraduationCap, Microscope, Activity,
-    Eye, Lock, Play
+    Eye, Lock, Play, Sparkles
 } from 'lucide-react';
 import './LandingPage.css';
 
@@ -33,6 +33,104 @@ function useCounter(end, duration = 1800) {
     return { count, ref };
 }
 
+/* ── Particle System ── */
+function useParticles(canvasRef) {
+    useEffect(() => {
+        const c = canvasRef.current;
+        if (!c) return;
+        const ctx = c.getContext('2d');
+        let particles = [];
+        let raf;
+        let mouse = { x: -1000, y: -1000 };
+
+        const resize = () => {
+            c.width = window.innerWidth * devicePixelRatio;
+            c.height = window.innerHeight * devicePixelRatio;
+            c.style.width = window.innerWidth + 'px';
+            c.style.height = window.innerHeight + 'px';
+            ctx.scale(devicePixelRatio, devicePixelRatio);
+        };
+        resize();
+        window.addEventListener('resize', resize);
+
+        const w = () => window.innerWidth;
+        const h = () => window.innerHeight;
+
+        // Create particles
+        const count = Math.min(100, Math.floor(window.innerWidth / 15));
+        for (let i = 0; i < count; i++) {
+            particles.push({
+                x: Math.random() * w(),
+                y: Math.random() * h(),
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                r: Math.random() * 1.5 + 0.3,
+                opacity: Math.random() * 0.5 + 0.1,
+            });
+        }
+
+        const handleMouse = (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        };
+        window.addEventListener('mousemove', handleMouse, { passive: true });
+
+        const draw = () => {
+            ctx.clearRect(0, 0, w(), h());
+
+            for (const p of particles) {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > w()) p.vx *= -1;
+                if (p.y < 0 || p.y > h()) p.vy *= -1;
+
+                // Mouse interaction
+                const dx = mouse.x - p.x;
+                const dy = mouse.y - p.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150) {
+                    p.x -= dx * 0.005;
+                    p.y -= dy * 0.005;
+                }
+            }
+
+            // Draw connections
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < 140) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(99, 102, 241, ${0.06 * (1 - d / 140)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw particles
+            for (const p of particles) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(129, 140, 248, ${p.opacity})`;
+                ctx.fill();
+            }
+
+            raf = requestAnimationFrame(draw);
+        };
+        draw();
+
+        return () => {
+            window.removeEventListener('resize', resize);
+            window.removeEventListener('mousemove', handleMouse);
+            cancelAnimationFrame(raf);
+        };
+    }, [canvasRef]);
+}
+
 export default function LandingPage({ onGetStarted }) {
     const [navScrolled, setNavScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -44,70 +142,13 @@ export default function LandingPage({ onGetStarted }) {
     const types = useCounter(4, 900);
     const scans = useCounter(10000, 2000);
 
+    useParticles(canvasRef);
+
     /* Navbar scroll */
     useEffect(() => {
         const fn = () => setNavScrolled(window.scrollY > 40);
         window.addEventListener('scroll', fn, { passive: true });
         return () => window.removeEventListener('scroll', fn);
-    }, []);
-
-    /* Neural canvas */
-    useEffect(() => {
-        const c = canvasRef.current;
-        if (!c) return;
-        const ctx = c.getContext('2d');
-        let nodes = [], raf;
-
-        const resize = () => {
-            c.width = c.offsetWidth * devicePixelRatio;
-            c.height = c.offsetHeight * devicePixelRatio;
-            ctx.scale(devicePixelRatio, devicePixelRatio);
-        };
-        resize();
-        window.addEventListener('resize', resize);
-
-        for (let i = 0; i < 70; i++) {
-            nodes.push({
-                x: Math.random() * c.offsetWidth,
-                y: Math.random() * c.offsetHeight,
-                vx: (Math.random() - 0.5) * 0.2,
-                vy: (Math.random() - 0.5) * 0.2,
-                r: Math.random() * 1.5 + 0.4,
-            });
-        }
-
-        const draw = () => {
-            ctx.clearRect(0, 0, c.offsetWidth, c.offsetHeight);
-            for (const n of nodes) {
-                n.x += n.vx; n.y += n.vy;
-                if (n.x < 0 || n.x > c.offsetWidth) n.vx *= -1;
-                if (n.y < 0 || n.y > c.offsetHeight) n.vy *= -1;
-            }
-            for (let i = 0; i < nodes.length; i++) {
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const dx = nodes[i].x - nodes[j].x;
-                    const dy = nodes[i].y - nodes[j].y;
-                    const d = Math.sqrt(dx * dx + dy * dy);
-                    if (d < 120) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(59, 130, 246, ${0.04 * (1 - d / 120)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(nodes[i].x, nodes[i].y);
-                        ctx.lineTo(nodes[j].x, nodes[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-            for (const n of nodes) {
-                ctx.beginPath();
-                ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(59, 130, 246, 0.1)';
-                ctx.fill();
-            }
-            raf = requestAnimationFrame(draw);
-        };
-        draw();
-        return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(raf); };
     }, []);
 
     /* Scroll reveal */
@@ -131,19 +172,19 @@ export default function LandingPage({ onGetStarted }) {
 
     /* Data */
     const features = [
-        { icon: <Eye size={20} />, title: 'AI Tumor Detection', desc: 'Deep learning algorithms detect brain tumors with clinical-grade accuracy from a single MRI scan.' },
-        { icon: <Cpu size={20} />, title: 'Smart Classification', desc: 'Classifies tumors into glioma, meningioma, pituitary, or healthy — with confidence scoring.' },
-        { icon: <FileImage size={20} />, title: 'Multi-Format Upload', desc: 'Supports DICOM, PNG, and JPG formats with drag-and-drop and 512×512+ resolution validation.' },
-        { icon: <Shield size={20} />, title: 'Clinical Dashboard', desc: 'Secure, HIPAA-aware interface with authentication, scan history, and professional reports.' },
-        { icon: <MessageSquare size={20} />, title: 'AI Clinical Chat', desc: 'Conversational AI assistant explains findings and answers diagnostic questions in real-time.' },
-        { icon: <Activity size={20} />, title: 'Real-Time Analysis', desc: 'Get results in under 3 seconds. Watch the AI analyze your scan with a live progress feed.' },
+        { icon: <Eye size={22} />, title: 'AI Tumor Detection', desc: 'Deep learning algorithms detect brain tumors with clinical-grade accuracy from a single MRI scan.' },
+        { icon: <Cpu size={22} />, title: 'Smart Classification', desc: 'Classifies tumors into glioma, meningioma, pituitary, or healthy — with confidence scoring.' },
+        { icon: <FileImage size={22} />, title: 'Multi-Format Upload', desc: 'Supports DICOM, PNG, and JPG formats with drag-and-drop and resolution validation.' },
+        { icon: <Shield size={22} />, title: 'Clinical Dashboard', desc: 'Secure, HIPAA-aware interface with authentication, scan history, and professional reports.' },
+        { icon: <MessageSquare size={22} />, title: 'AI Clinical Chat', desc: 'Conversational AI assistant explains findings and answers diagnostic questions in real-time.' },
+        { icon: <Activity size={22} />, title: 'Real-Time Analysis', desc: 'Get results in under 3 seconds. Watch the AI analyze your scan with a live progress feed.' },
     ];
 
     const steps = [
-        { icon: <Upload size={20} />, title: 'Upload MRI', desc: 'Drag & drop your brain scan in DICOM, PNG, or JPG format.' },
-        { icon: <Zap size={20} />, title: 'AI Analysis', desc: 'CNN model processes scan through multi-layer feature extraction.' },
-        { icon: <Search size={20} />, title: 'Detection', desc: 'AI identifies, localizes, and classifies potential tumors.' },
-        { icon: <Monitor size={20} />, title: 'View Results', desc: 'Review classification, segmentation, and clinical insights.' },
+        { icon: <Upload size={22} />, title: 'Upload MRI', desc: 'Drag & drop your brain scan in DICOM, PNG, or JPG format.' },
+        { icon: <Zap size={22} />, title: 'AI Analysis', desc: 'CNN model processes scan through multi-layer feature extraction.' },
+        { icon: <Search size={22} />, title: 'Detection', desc: 'AI identifies, localizes, and classifies potential tumors.' },
+        { icon: <Monitor size={22} />, title: 'View Results', desc: 'Review classification, segmentation, and clinical insights.' },
     ];
 
     const tech = [
@@ -163,113 +204,103 @@ export default function LandingPage({ onGetStarted }) {
     const navLinks = ['Features', 'How It Works', 'Technology'];
 
     return (
-        <div className="min-h-screen bg-white text-slate-900 overflow-x-hidden">
+        <div className="nl-landing">
+            {/* ── Ambient Background ── */}
+            <div className="nl-ambient" />
+            <canvas ref={canvasRef} className="nl-particles-canvas" />
+            <div className="nl-grid-overlay" />
 
             {/* ═══════════ NAVBAR ═══════════ */}
-            <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${navScrolled ? 'nl-nav-scrolled' : 'bg-white/60 backdrop-blur-md'}`}>
-                <div className="max-w-6xl mx-auto px-6">
-                    <div className="flex items-center justify-between h-16">
-                        <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md shadow-blue-500/20">
-                                <Brain size={16} className="text-white" />
-                            </div>
-                            <span className="text-lg font-bold text-slate-900">Neuro<span className="text-blue-600">Lens</span></span>
+            <nav className={`nl-navbar ${navScrolled ? 'scrolled' : ''}`}>
+                <div className="nl-navbar-inner">
+                    <div className="nl-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                        <div className="nl-logo-icon">
+                            <Brain size={18} color="#fff" />
                         </div>
-
-                        <div className="hidden md:flex items-center gap-1">
-                            {navLinks.map(l => (
-                                <button key={l} onClick={() => scrollTo(l.toLowerCase().replace(/ /g, '-'))}
-                                    className="px-4 py-2 text-[13px] font-medium text-slate-500 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition-all">
-                                    {l}
-                                </button>
-                            ))}
-                            <div className="w-px h-5 bg-slate-200 mx-2" />
-                            <button onClick={onGetStarted}
-                                className="px-5 py-2 text-[13px] font-semibold text-white rounded-lg bg-blue-600 hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20 hover:shadow-blue-600/30 flex items-center gap-1.5">
-                                <Lock size={12} /> Sign In
-                            </button>
-                        </div>
-
-                        <button className="md:hidden p-2 text-slate-500" onClick={() => setMobileOpen(!mobileOpen)}>
-                            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-                        </button>
+                        <div className="nl-logo-text">Neuro<span>Lens</span></div>
                     </div>
-                </div>
 
-                {mobileOpen && (
-                    <div className="nl-mobile-panel md:hidden px-6 py-4 flex flex-col gap-1">
+                    <div className="nl-nav-links">
                         {navLinks.map(l => (
-                            <button key={l} onClick={() => scrollTo(l.toLowerCase().replace(/ /g, '-'))}
-                                className="text-left text-sm text-slate-600 hover:text-blue-600 py-2.5 px-3 rounded-lg hover:bg-blue-50 transition-all">
+                            <button key={l} className="nl-nav-link"
+                                onClick={() => scrollTo(l.toLowerCase().replace(/ /g, '-'))}>
                                 {l}
                             </button>
                         ))}
-                        <button onClick={onGetStarted}
-                            className="mt-2 px-5 py-2.5 text-sm font-semibold rounded-lg bg-blue-600 text-white text-center">
-                            Sign In
+                        <div className="nl-nav-divider" />
+                        <button className="nl-nav-cta" onClick={onGetStarted}>
+                            <Lock size={13} /> Sign In
                         </button>
                     </div>
-                )}
+
+                    <button className="nl-mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)}>
+                        {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+                    </button>
+                </div>
+
+                <div className={`nl-mobile-menu ${mobileOpen ? 'open' : ''}`}>
+                    {navLinks.map(l => (
+                        <button key={l} className="nl-mobile-link"
+                            onClick={() => scrollTo(l.toLowerCase().replace(/ /g, '-'))}>
+                            {l}
+                        </button>
+                    ))}
+                    <button className="nl-mobile-cta" onClick={onGetStarted}>
+                        Sign In
+                    </button>
+                </div>
             </nav>
 
             {/* ═══════════ HERO ═══════════ */}
-            <section className="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden">
-                <canvas ref={canvasRef} className="nl-canvas" />
-                <div className="nl-hero-bg" />
-                <div className="nl-orb nl-orb-1" />
-                <div className="nl-orb nl-orb-2" />
-                <div className="nl-orb nl-orb-3" />
-
-                <div className="relative z-10 max-w-6xl mx-auto px-6 w-full">
-                    <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
-                        {/* Text */}
-                        <div className="flex-1 text-center lg:text-left">
-                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-200 bg-blue-50 mb-8">
-                                <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-                                <span className="text-xs font-semibold text-blue-600">AI-Powered Medical Imaging</span>
-                            </div>
-
-                            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[1.12] tracking-tight mb-6 text-slate-900">
-                                AI-Powered Brain{' '}
-                                <span className="text-blue-600">Tumor Detection</span>{' '}
-                                & Classification
-                            </h1>
-
-                            <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-lg mx-auto lg:mx-0 mb-10">
-                                Upload MRI brain scans and receive instant AI-driven analysis.
-                                Clinical-grade detection and classification — in under 3 seconds.
-                            </p>
-
-                            <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start">
-                                <button onClick={onGetStarted}
-                                    className="group px-7 py-3.5 rounded-xl font-semibold text-sm text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/25 hover:shadow-blue-600/35 transition-all flex items-center gap-2">
-                                    Get Started Free
-                                    <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
-                                </button>
-                                <button onClick={onGetStarted}
-                                    className="px-7 py-3.5 rounded-xl font-semibold text-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 hover:text-blue-600 transition-all flex items-center gap-2 shadow-sm">
-                                    <Play size={14} className="text-blue-500" /> Watch Demo
-                                </button>
-                            </div>
-
-                            {/* Stats */}
-                            <div ref={acc.ref} className="flex items-center gap-8 sm:gap-10 mt-12 justify-center lg:justify-start">
-                                {[
-                                    { val: `${acc.count}%+`, label: 'Accuracy' },
-                                    { val: `<${spd.count}s`, label: 'Analysis' },
-                                    { val: types.count, label: 'Tumor Types' },
-                                    { val: `${scans.count.toLocaleString()}+`, label: 'Scans Trained' },
-                                ].map((s, i) => (
-                                    <div key={i} className="text-center">
-                                        <div className="text-xl font-bold text-blue-600">{s.val}</div>
-                                        <div className="text-[11px] text-slate-400 mt-0.5 font-medium uppercase tracking-wider">{s.label}</div>
-                                    </div>
-                                ))}
-                            </div>
+            <section className="nl-hero">
+                <div className="nl-hero-container">
+                    <div className="nl-hero-content">
+                        <div className="nl-hero-badge">
+                            <div className="nl-hero-badge-dot" />
+                            <span className="nl-hero-badge-text">AI-Powered Medical Imaging</span>
                         </div>
 
-                        {/* Brain */}
-                        <div className="nl-brain-wrap">
+                        <h1 className="nl-hero-title">
+                            AI-Powered Brain{' '}
+                            <span className="nl-hero-title-gradient">Tumor Detection</span>
+                            {' '}& Classification
+                        </h1>
+
+                        <p className="nl-hero-desc">
+                            Upload MRI brain scans and receive instant AI-driven analysis.
+                            Clinical-grade detection and classification — in under 3 seconds.
+                        </p>
+
+                        <div className="nl-hero-actions">
+                            <button className="nl-btn-primary" onClick={onGetStarted}>
+                                <Sparkles size={16} />
+                                Get Started Free
+                                <ArrowRight size={15} />
+                            </button>
+                            <button className="nl-btn-secondary" onClick={onGetStarted}>
+                                <Play size={14} />
+                                Watch Demo
+                            </button>
+                        </div>
+
+                        <div ref={acc.ref} className="nl-hero-stats">
+                            {[
+                                { val: `${acc.count}%+`, label: 'Accuracy' },
+                                { val: `<${spd.count}s`, label: 'Analysis' },
+                                { val: types.count, label: 'Tumor Types' },
+                                { val: `${scans.count.toLocaleString()}+`, label: 'Scans Trained' },
+                            ].map((s, i) => (
+                                <div key={i} className="nl-stat">
+                                    <div className="nl-stat-value">{s.val}</div>
+                                    <div className="nl-stat-label">{s.label}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Brain Visualization */}
+                    <div className="nl-hero-visual">
+                        <div className="nl-brain-container">
                             <div className="nl-brain-glow" />
                             <div className="nl-orbit nl-orbit-1"><div className="nl-orbit-dot" /></div>
                             <div className="nl-orbit nl-orbit-2"><div className="nl-orbit-dot" /></div>
@@ -298,24 +329,24 @@ export default function LandingPage({ onGetStarted }) {
                                 {[[58, 70], [142, 70], [48, 95], [152, 95], [44, 120], [156, 120], [54, 144], [146, 144], [100, 22], [100, 180], [25, 88], [175, 88]].map(([cx, cy], i) => (
                                     <circle key={i} cx={cx} cy={cy} r="2.5" fill="url(#ng)">
                                         <animate attributeName="r" values="2;3.5;2" dur={`${2.5 + i * 0.2}s`} repeatCount="indefinite" />
-                                        <animate attributeName="opacity" values="0.4;0.85;0.4" dur={`${2.5 + i * 0.2}s`} repeatCount="indefinite" />
+                                        <animate attributeName="opacity" values="0.4;0.9;0.4" dur={`${2.5 + i * 0.2}s`} repeatCount="indefinite" />
                                     </circle>
                                 ))}
 
                                 <defs>
                                     <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#3b82f6" /><stop offset="100%" stopColor="#6366f1" />
+                                        <stop offset="0%" stopColor="#818cf8" /><stop offset="100%" stopColor="#6366f1" />
                                     </linearGradient>
                                     <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#2563eb" /><stop offset="100%" stopColor="#06b6d4" />
+                                        <stop offset="0%" stopColor="#6366f1" /><stop offset="100%" stopColor="#22d3ee" />
                                     </linearGradient>
                                     <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.15" />
-                                        <stop offset="50%" stopColor="#2563eb" stopOpacity="0.6" />
-                                        <stop offset="100%" stopColor="#6366f1" stopOpacity="0.15" />
+                                        <stop offset="0%" stopColor="#6366f1" stopOpacity="0.1" />
+                                        <stop offset="50%" stopColor="#818cf8" stopOpacity="0.5" />
+                                        <stop offset="100%" stopColor="#a78bfa" stopOpacity="0.1" />
                                     </linearGradient>
                                     <radialGradient id="ng">
-                                        <stop offset="0%" stopColor="#fff" /><stop offset="100%" stopColor="#3b82f6" />
+                                        <stop offset="0%" stopColor="#fff" /><stop offset="100%" stopColor="#818cf8" />
                                     </radialGradient>
                                 </defs>
                             </svg>
@@ -327,24 +358,26 @@ export default function LandingPage({ onGetStarted }) {
             <div className="nl-divider" />
 
             {/* ═══════════ FEATURES ═══════════ */}
-            <section id="features" className="py-24 lg:py-28">
-                <div className="max-w-6xl mx-auto px-6">
-                    <div ref={addRef} className="nl-reveal text-center mb-16">
-                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600 mb-3 block">Core Capabilities</span>
-                        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 text-slate-900">
-                            Everything You Need for <span className="text-blue-600">Clinical AI</span>
+            <section id="features" className="nl-section">
+                <div className="nl-section-container">
+                    <div ref={addRef} className="nl-reveal nl-section-header">
+                        <span className="nl-section-tag">
+                            <Sparkles size={12} /> Core Capabilities
+                        </span>
+                        <h2 className="nl-section-title">
+                            Everything You Need for <span>Clinical AI</span>
                         </h2>
-                        <p className="text-slate-500 max-w-lg mx-auto text-[15px]">
+                        <p className="nl-section-desc">
                             A complete AI-powered platform for brain tumor analysis — from upload to diagnosis.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div className="nl-features-grid">
                         {features.map((f, i) => (
-                            <div key={i} ref={addRef} className="nl-reveal nl-card p-6" style={{ '--d': i }}>
-                                <div className="nl-icon-box mb-4">{f.icon}</div>
-                                <h3 className="text-base font-semibold text-slate-900 mb-2">{f.title}</h3>
-                                <p className="text-sm text-slate-500 leading-relaxed">{f.desc}</p>
+                            <div key={i} ref={addRef} className="nl-reveal nl-glass-card" style={{ '--d': i }}>
+                                <div className="nl-icon-box">{f.icon}</div>
+                                <h3 className="nl-card-title">{f.title}</h3>
+                                <p className="nl-card-desc">{f.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -354,27 +387,29 @@ export default function LandingPage({ onGetStarted }) {
             <div className="nl-divider" />
 
             {/* ═══════════ HOW IT WORKS ═══════════ */}
-            <section id="how-it-works" className="py-24 lg:py-28 bg-slate-50/50">
-                <div className="max-w-6xl mx-auto px-6">
-                    <div ref={addRef} className="nl-reveal text-center mb-16">
-                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600 mb-3 block">Workflow</span>
-                        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 text-slate-900">
-                            How It <span className="text-blue-600">Works</span>
+            <section id="how-it-works" className="nl-section nl-section-alt">
+                <div className="nl-section-container">
+                    <div ref={addRef} className="nl-reveal nl-section-header">
+                        <span className="nl-section-tag">Workflow</span>
+                        <h2 className="nl-section-title">
+                            How It <span>Works</span>
                         </h2>
-                        <p className="text-slate-500 max-w-lg mx-auto text-[15px]">
+                        <p className="nl-section-desc">
                             Four simple steps from upload to diagnosis.
                         </p>
                     </div>
 
-                    <div className="relative">
-                        <div className="nl-timeline-line hidden lg:block" />
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+                    <div style={{ position: 'relative' }}>
+                        <div className="nl-timeline-line" style={{ display: 'none' }} />
+                        <div className="nl-grid-4" style={{ position: 'relative' }}>
+                            {/* Show timeline on large screens */}
+                            <div className="nl-timeline-line" style={{ display: undefined }} />
                             {steps.map((s, i) => (
-                                <div key={i} ref={addRef} className="nl-reveal text-center" style={{ '--d': i }}>
-                                    <div className="nl-step-orb mx-auto mb-5">{s.icon}</div>
-                                    <div className="text-[10px] font-bold text-blue-400 mb-1 tracking-[0.15em]">STEP {String(i + 1).padStart(2, '0')}</div>
-                                    <h3 className="text-base font-semibold text-slate-900 mb-1.5">{s.title}</h3>
-                                    <p className="text-sm text-slate-500 leading-relaxed max-w-[220px] mx-auto">{s.desc}</p>
+                                <div key={i} ref={addRef} className="nl-reveal" style={{ '--d': i, textAlign: 'center' }}>
+                                    <div className="nl-step-orb">{s.icon}</div>
+                                    <div className="nl-step-label">STEP {String(i + 1).padStart(2, '0')}</div>
+                                    <h3 className="nl-step-title">{s.title}</h3>
+                                    <p className="nl-step-desc">{s.desc}</p>
                                 </div>
                             ))}
                         </div>
@@ -385,24 +420,24 @@ export default function LandingPage({ onGetStarted }) {
             <div className="nl-divider" />
 
             {/* ═══════════ TECHNOLOGY ═══════════ */}
-            <section id="technology" className="py-24 lg:py-28">
-                <div className="max-w-6xl mx-auto px-6">
-                    <div ref={addRef} className="nl-reveal text-center mb-16">
-                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600 mb-3 block">Tech Stack</span>
-                        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 text-slate-900">
-                            Built With <span className="text-blue-600">Modern Technology</span>
+            <section id="technology" className="nl-section">
+                <div className="nl-section-container">
+                    <div ref={addRef} className="nl-reveal nl-section-header">
+                        <span className="nl-section-tag">Tech Stack</span>
+                        <h2 className="nl-section-title">
+                            Built With <span>Modern Technology</span>
                         </h2>
-                        <p className="text-slate-500 max-w-lg mx-auto text-[15px]">
+                        <p className="nl-section-desc">
                             Enterprise-grade architecture for speed, accuracy, and reliability.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div className="nl-grid-4">
                         {tech.map((t, i) => (
-                            <div key={i} ref={addRef} className="nl-reveal nl-card p-6 text-center" style={{ '--d': i }}>
-                                <div className="nl-icon-box w-12 h-12 mx-auto mb-4">{t.icon}</div>
-                                <h3 className="text-sm font-semibold text-slate-900 mb-1.5">{t.name}</h3>
-                                <p className="text-sm text-slate-500 leading-relaxed">{t.desc}</p>
+                            <div key={i} ref={addRef} className="nl-reveal nl-glass-card" style={{ '--d': i, textAlign: 'center' }}>
+                                <div className="nl-icon-box" style={{ margin: '0 auto 20px' }}>{t.icon}</div>
+                                <h3 className="nl-card-title">{t.name}</h3>
+                                <p className="nl-card-desc">{t.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -412,24 +447,24 @@ export default function LandingPage({ onGetStarted }) {
             <div className="nl-divider" />
 
             {/* ═══════════ TARGET USERS ═══════════ */}
-            <section className="py-24 lg:py-28 bg-slate-50/50">
-                <div className="max-w-6xl mx-auto px-6">
-                    <div ref={addRef} className="nl-reveal text-center mb-16">
-                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600 mb-3 block">Who It's For</span>
-                        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 text-slate-900">
-                            Designed For <span className="text-blue-600">Healthcare Professionals</span>
+            <section className="nl-section nl-section-alt">
+                <div className="nl-section-container">
+                    <div ref={addRef} className="nl-reveal nl-section-header">
+                        <span className="nl-section-tag">Who It's For</span>
+                        <h2 className="nl-section-title">
+                            Designed For <span>Healthcare Professionals</span>
                         </h2>
-                        <p className="text-slate-500 max-w-lg mx-auto text-[15px]">
+                        <p className="nl-section-desc">
                             From radiologists to AI researchers — NeuroLens fits any clinical or research workflow.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div className="nl-grid-4">
                         {users.map((u, i) => (
-                            <div key={i} ref={addRef} className="nl-reveal nl-card p-6 text-center" style={{ '--d': i }}>
-                                <div className="nl-icon-box w-12 h-12 mx-auto mb-4">{u.icon}</div>
-                                <h3 className="text-sm font-semibold text-slate-900 mb-1.5">{u.title}</h3>
-                                <p className="text-sm text-slate-500 leading-relaxed">{u.desc}</p>
+                            <div key={i} ref={addRef} className="nl-reveal nl-glass-card" style={{ '--d': i, textAlign: 'center' }}>
+                                <div className="nl-icon-box" style={{ margin: '0 auto 20px' }}>{u.icon}</div>
+                                <h3 className="nl-card-title">{u.title}</h3>
+                                <p className="nl-card-desc">{u.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -437,29 +472,27 @@ export default function LandingPage({ onGetStarted }) {
             </section>
 
             {/* ═══════════ CTA ═══════════ */}
-            <section className="py-24 lg:py-28 nl-cta-bg">
-                <div className="max-w-2xl mx-auto px-6 text-center">
+            <section className="nl-cta">
+                <div className="nl-cta-container">
                     <div ref={addRef} className="nl-reveal">
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mx-auto mb-7 shadow-lg shadow-blue-500/20">
-                            <Brain size={24} className="text-white" />
+                        <div className="nl-cta-icon">
+                            <Brain size={28} color="#fff" />
                         </div>
 
-                        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 text-slate-900">
-                            Ready to Transform Your <span className="text-blue-600">Diagnostic Workflow?</span>
+                        <h2 className="nl-cta-title">
+                            Ready to Transform Your <span>Diagnostic Workflow?</span>
                         </h2>
 
-                        <p className="text-slate-500 mb-8 max-w-md mx-auto text-[15px] leading-relaxed">
+                        <p className="nl-cta-desc">
                             Join healthcare professionals using AI for faster, more accurate brain tumor detection.
                         </p>
 
-                        <div className="flex flex-col sm:flex-row items-center gap-3 justify-center">
-                            <button onClick={onGetStarted}
-                                className="group px-8 py-3.5 rounded-xl font-semibold text-sm text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/25 transition-all flex items-center gap-2">
+                        <div className="nl-cta-actions">
+                            <button className="nl-btn-primary" onClick={onGetStarted}>
                                 Start Analyzing Now
-                                <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
+                                <ArrowRight size={15} />
                             </button>
-                            <button onClick={onGetStarted}
-                                className="px-8 py-3.5 rounded-xl font-semibold text-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 transition-all shadow-sm">
+                            <button className="nl-btn-secondary" onClick={onGetStarted}>
                                 Try Demo Account
                             </button>
                         </div>
@@ -468,27 +501,25 @@ export default function LandingPage({ onGetStarted }) {
             </section>
 
             {/* ═══════════ FOOTER ═══════════ */}
-            <footer className="py-8 border-t border-slate-100">
-                <div className="max-w-6xl mx-auto px-6">
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                        <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-                                <Brain size={13} className="text-white" />
-                            </div>
-                            <span className="text-sm font-bold text-slate-800">Neuro<span className="text-blue-600">Lens</span></span>
+            <footer className="nl-footer">
+                <div className="nl-footer-inner">
+                    <div className="nl-logo">
+                        <div className="nl-logo-icon" style={{ width: 28, height: 28, borderRadius: 8 }}>
+                            <Brain size={14} color="#fff" />
                         </div>
-
-                        <div className="flex items-center gap-5">
-                            {navLinks.map(l => (
-                                <button key={l} onClick={() => scrollTo(l.toLowerCase().replace(/ /g, '-'))}
-                                    className="text-[11px] text-slate-400 hover:text-blue-600 transition-colors font-medium uppercase tracking-wider">
-                                    {l}
-                                </button>
-                            ))}
-                        </div>
-
-                        <p className="text-[11px] text-slate-400">© 2026 NeuroLens. All rights reserved.</p>
+                        <div className="nl-logo-text" style={{ fontSize: 14 }}>Neuro<span>Lens</span></div>
                     </div>
+
+                    <div className="nl-footer-links">
+                        {navLinks.map(l => (
+                            <button key={l} className="nl-footer-link"
+                                onClick={() => scrollTo(l.toLowerCase().replace(/ /g, '-'))}>
+                                {l}
+                            </button>
+                        ))}
+                    </div>
+
+                    <p className="nl-footer-copy">© 2026 NeuroLens. All rights reserved.</p>
                 </div>
             </footer>
         </div>
