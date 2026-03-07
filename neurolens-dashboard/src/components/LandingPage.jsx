@@ -3,8 +3,9 @@ import {
     Brain, Upload, Shield, MessageSquare, Search, ArrowRight,
     Menu, X, Zap, Database, Monitor, FlaskConical, Cpu, FileImage,
     Stethoscope, Building2, GraduationCap, Microscope, Activity,
-    Eye, Lock, Play, Sparkles
+    Eye, Lock, Play, Sparkles, Sun, Moon
 } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 import './LandingPage.css';
 
 /* ── Animated Counter ── */
@@ -34,7 +35,7 @@ function useCounter(end, duration = 1800) {
 }
 
 /* ── Particle System ── */
-function useParticles(canvasRef) {
+function useParticles(canvasRef, isDark) {
     useEffect(() => {
         const c = canvasRef.current;
         if (!c) return;
@@ -102,7 +103,9 @@ function useParticles(canvasRef) {
                     const d = Math.sqrt(dx * dx + dy * dy);
                     if (d < 140) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(99, 102, 241, ${0.06 * (1 - d / 140)})`;
+                        ctx.strokeStyle = isDark
+                            ? `rgba(99, 102, 241, ${0.06 * (1 - d / 140)})`
+                            : `rgba(99, 102, 241, ${0.08 * (1 - d / 140)})`;
                         ctx.lineWidth = 0.5;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -115,7 +118,9 @@ function useParticles(canvasRef) {
             for (const p of particles) {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(129, 140, 248, ${p.opacity})`;
+                ctx.fillStyle = isDark
+                    ? `rgba(129, 140, 248, ${p.opacity})`
+                    : `rgba(79, 70, 229, ${p.opacity * 0.6})`;
                 ctx.fill();
             }
 
@@ -128,10 +133,12 @@ function useParticles(canvasRef) {
             window.removeEventListener('mousemove', handleMouse);
             cancelAnimationFrame(raf);
         };
-    }, [canvasRef]);
+    }, [canvasRef, isDark]);
 }
 
 export default function LandingPage({ onGetStarted }) {
+    const { theme, toggleTheme } = useTheme();
+    const isDark = theme === 'dark';
     const [navScrolled, setNavScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const canvasRef = useRef(null);
@@ -142,7 +149,7 @@ export default function LandingPage({ onGetStarted }) {
     const types = useCounter(4, 900);
     const scans = useCounter(10000, 2000);
 
-    useParticles(canvasRef);
+    useParticles(canvasRef, isDark);
 
     /* Navbar scroll */
     useEffect(() => {
@@ -204,7 +211,7 @@ export default function LandingPage({ onGetStarted }) {
     const navLinks = ['Features', 'How It Works', 'Technology'];
 
     return (
-        <div className="nl-landing">
+        <div className={`nl-landing ${isDark ? '' : 'nl-light'}`}>
             {/* ── Ambient Background ── */}
             <div className="nl-ambient" />
             <canvas ref={canvasRef} className="nl-particles-canvas" />
@@ -227,6 +234,9 @@ export default function LandingPage({ onGetStarted }) {
                                 {l}
                             </button>
                         ))}
+                        <button className="nl-theme-toggle" onClick={toggleTheme} title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}>
+                            {isDark ? <Sun size={16} /> : <Moon size={16} />}
+                        </button>
                         <div className="nl-nav-divider" />
                         <button className="nl-nav-cta" onClick={onGetStarted}>
                             <Lock size={13} /> Sign In
