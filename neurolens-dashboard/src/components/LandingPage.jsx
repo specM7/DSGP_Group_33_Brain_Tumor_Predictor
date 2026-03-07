@@ -6,6 +6,10 @@ import {
     Eye, Lock, Play, Sparkles, Sun, Moon
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import malinduImg from '../assets/founders/malindu.jpg';
+import adrianImg from '../assets/founders/adrian.png';
+import viduImg from '../assets/founders/vidu.png';
+import ahshaanImg from '../assets/founders/ahshaan.png';
 import './LandingPage.css';
 
 /* ── Animated Counter ── */
@@ -485,15 +489,15 @@ export default function LandingPage({ onGetStarted }) {
 
                     <div className="nl-founders-grid">
                         {[
-                            { name: 'Malindu Manchanayake', initials: 'MM', linkedin: 'https://www.linkedin.com/in/malindu-manchanayake-8b2b993b1/', email: 'malindu.20241239@iit.ac.lk' },
-                            { name: 'Adrian Vethanayagam', initials: 'AV', linkedin: 'https://www.linkedin.com/in/joshua-adrian-/', email: 'joshua.20240846@iit.ac.lk' },
-                            { name: 'Vidu Liyanage', initials: 'VL', linkedin: 'https://www.linkedin.com/in/viduliyanage7/', email: 'vidu.20240197@iit.ac.lk' },
-                            { name: 'Mohamed Ahshaan', initials: 'MA', linkedin: 'https://www.linkedin.com/in/mohamedahshaan/', email: 'ahshaan.20240128@iit.ac.lk' },
+                            { name: 'Malindu Manchanayake', photo: malinduImg, linkedin: 'https://www.linkedin.com/in/malindu-manchanayake-8b2b993b1/', email: 'malindu.20241239@iit.ac.lk' },
+                            { name: 'Adrian Vethanayagam', photo: adrianImg, linkedin: 'https://www.linkedin.com/in/joshua-adrian-/', email: 'joshua.20240846@iit.ac.lk' },
+                            { name: 'Vidu Liyanage', photo: viduImg, linkedin: 'https://www.linkedin.com/in/viduliyanage7/', email: 'vidu.20240197@iit.ac.lk' },
+                            { name: 'Mohamed Ahshaan', photo: ahshaanImg, linkedin: 'https://www.linkedin.com/in/mohamedahshaan/', email: 'ahshaan.20240128@iit.ac.lk' },
                         ].map((f, i) => (
                             <div key={i} ref={addRef} className="nl-reveal nl-founder-card" style={{ '--d': i }}>
                                 <div className="nl-founder-avatar-ring">
                                     <div className="nl-founder-avatar">
-                                        <span>{f.initials}</span>
+                                        <img src={f.photo} alt={f.name} />
                                     </div>
                                 </div>
                                 <h3 className="nl-founder-name">{f.name}</h3>
