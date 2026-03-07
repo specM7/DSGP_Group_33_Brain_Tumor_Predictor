@@ -1344,7 +1344,19 @@ html {
 /* ── Navbar ── */
 .nl-landing.nl-light .nl-navbar.scrolled {
     background: rgba(248, 249, 252, 0.88);
-    border-bottom-color: rgba(99, 102, 241, 0.08);
+    box-shadow:
+        0 1px 0 0 rgba(99, 102, 241, 0.08),
+        0 4px 24px -4px rgba(0, 0, 0, 0.06),
+        inset 0 -1px 0 0 rgba(99, 102, 241, 0.04);
+}
+
+.nl-landing.nl-light .nl-navbar.scrolled::after {
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(99, 102, 241, 0.25),
+            rgba(6, 182, 212, 0.2),
+            rgba(168, 85, 247, 0.25),
+            transparent);
 }
 
 .nl-landing.nl-light .nl-nav-link {
