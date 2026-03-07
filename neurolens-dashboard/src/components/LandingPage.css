@@ -1184,18 +1184,10 @@
             #6366f1);
     margin: 0 auto 20px;
     transition: all 0.5s ease;
-    animation: nl-ring-rotate 8s linear infinite paused;
 }
 
 .nl-founder-card:hover .nl-founder-avatar-ring {
-    animation-play-state: running;
     box-shadow: 0 0 24px rgba(99, 102, 241, 0.3), 0 0 48px rgba(99, 102, 241, 0.1);
-}
-
-@keyframes nl-ring-rotate {
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 .nl-founder-avatar {
