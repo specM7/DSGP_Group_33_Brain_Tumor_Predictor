@@ -468,6 +468,42 @@ export default function LandingPage({ onGetStarted }) {
                 </div>
             </section>
 
+            <div className="nl-divider" />
+
+            {/* ═══════════ FOUNDERS ═══════════ */}
+            <section className="nl-section">
+                <div className="nl-section-container">
+                    <div ref={addRef} className="nl-reveal nl-section-header">
+                        <span className="nl-section-tag">Our Team</span>
+                        <h2 className="nl-section-title">
+                            Meet the <span>Founders</span>
+                        </h2>
+                        <p className="nl-section-desc">
+                            The minds behind NeuroLens — building the future of AI-powered medical imaging.
+                        </p>
+                    </div>
+
+                    <div className="nl-founders-grid">
+                        {[
+                            { name: 'Malindu Manchanayake', initials: 'MM' },
+                            { name: 'Adrian Vethanayagam', initials: 'AV' },
+                            { name: 'Vidu Liyanage', initials: 'VL' },
+                            { name: 'Mohamed Ahshaan', initials: 'MA' },
+                        ].map((f, i) => (
+                            <div key={i} ref={addRef} className="nl-reveal nl-founder-card" style={{ '--d': i }}>
+                                <div className="nl-founder-avatar-ring">
+                                    <div className="nl-founder-avatar">
+                                        <span>{f.initials}</span>
+                                    </div>
+                                </div>
+                                <h3 className="nl-founder-name">{f.name}</h3>
+                                <span className="nl-founder-role">Co-Founder</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* ═══════════ CTA ═══════════ */}
             <section className="nl-cta">
                 <div className="nl-cta-container">
