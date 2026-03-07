@@ -1235,17 +1235,44 @@
     opacity: 0.8;
 }
 
-.nl-founder-linkedin {
-    margin-top: 14px;
-    color: var(--nl-text-muted);
-    transition: all 0.3s ease;
-    opacity: 0.5;
+.nl-founder-socials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
 }
 
-.nl-founder-card:hover .nl-founder-linkedin {
-    color: #0a66c2;
-    opacity: 1;
-    transform: scale(1.15);
+.nl-founder-social {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--nl-text-muted);
+    background: rgba(99, 102, 241, 0.06);
+    border: 1px solid rgba(99, 102, 241, 0.08);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.nl-founder-social:hover {
+    transform: translateY(-2px) scale(1.1);
+    color: #fff;
+    border-color: transparent;
+}
+
+/* LinkedIn hover */
+.nl-founder-social:first-child:hover {
+    background: #0a66c2;
+    box-shadow: 0 4px 16px rgba(10, 102, 194, 0.4);
+}
+
+/* Email hover */
+.nl-founder-social:last-child:hover {
+    background: var(--nl-accent);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
 }
 
 /* Light mode founders */
