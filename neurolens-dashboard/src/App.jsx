@@ -27,6 +27,7 @@ function App() {
           setUser(userData);
           setPage('dashboard');
         }}
+        onBack={() => setPage('landing')}
       />
     );
   }

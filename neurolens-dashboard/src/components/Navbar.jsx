@@ -1,14 +1,18 @@
 import { Brain, Sun, Moon, LogOut } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
-export default function Navbar({ user, onLogout }) {
+export default function Navbar({ user, onLogout, onLogoClick }) {
     const { theme, toggleTheme } = useTheme();
 
     return (
         <nav className="navbar">
             <div className="navbar-inner">
                 <div className="navbar-left">
-                    <div className="navbar-brand">
+                    <div
+                        className="navbar-brand"
+                        onClick={onLogoClick}
+                        style={{ cursor: onLogoClick ? 'pointer' : 'default' }}
+                    >
                         <div className="brand-icon">
                             <Brain size={22} color="#fff" />
                         </div>
