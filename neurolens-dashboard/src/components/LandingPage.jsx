@@ -287,13 +287,13 @@ export default function LandingPage({ onGetStarted }) {
 
                         <div className="nl-hero-actions">
                             <button className="nl-btn-primary" onClick={onGetStarted}>
-                                <Sparkles size={16} />
-                                Get Started Free
+                                <Brain size={16} />
+                                Start AI Analysis
                                 <ArrowRight size={15} />
                             </button>
-                            <button className="nl-btn-secondary" onClick={onGetStarted}>
-                                <Play size={14} />
-                                Watch Demo
+                            <button className="nl-btn-secondary" onClick={() => scrollTo('how-it-works')}>
+                                <Activity size={14} />
+                                See How It Works
                             </button>
                         </div>
 
