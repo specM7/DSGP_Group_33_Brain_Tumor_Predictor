@@ -183,32 +183,32 @@ export default function LandingPage({ onGetStarted }) {
 
     /* Data */
     const features = [
-        { icon: <Eye size={22} />, title: 'AI Tumor Detection', desc: 'Deep learning algorithms detect brain tumors with clinical-grade accuracy from a single MRI scan.' },
+        { icon: <Eye size={22} />, title: 'AI Tumor Detection', desc: 'Deep learning algorithms detect brain tumors with clinical grade accuracy from a single MRI scan.' },
         { icon: <Cpu size={22} />, title: 'Smart Classification', desc: 'Classifies tumors into glioma, meningioma, pituitary, or healthy — with confidence scoring.' },
-        { icon: <FileImage size={22} />, title: 'Multi-Format Upload', desc: 'Supports DICOM, PNG, and JPG formats with drag-and-drop and resolution validation.' },
-        { icon: <Shield size={22} />, title: 'Clinical Dashboard', desc: 'Secure, HIPAA-aware interface with authentication, scan history, and professional reports.' },
-        { icon: <MessageSquare size={22} />, title: 'AI Clinical Chat', desc: 'Conversational AI assistant explains findings and answers diagnostic questions in real-time.' },
-        { icon: <Activity size={22} />, title: 'Real-Time Analysis', desc: 'Get results in under 3 seconds. Watch the AI analyze your scan with a live progress feed.' },
+        { icon: <FileImage size={22} />, title: 'Multi Format Upload', desc: 'Supports DICOM, PNG, and JPG formats with drag and drop and resolution validation.' },
+        { icon: <Shield size={22} />, title: 'Clinical Dashboard', desc: 'Secure, HIPAA aware interface with authentication, scan history, and professional reports.' },
+        { icon: <MessageSquare size={22} />, title: 'AI Clinical Chat', desc: 'Conversational AI assistant explains findings and answers diagnostic questions in real time.' },
+        { icon: <Activity size={22} />, title: 'Real Time Analysis', desc: 'Get results in under 3 seconds. Watch the AI analyze your scan with a live progress feed.' },
     ];
 
     const steps = [
         { icon: <Upload size={22} />, title: 'Upload MRI', desc: 'Drag & drop your brain scan in DICOM, PNG, or JPG format.' },
-        { icon: <Zap size={22} />, title: 'AI Analysis', desc: 'CNN model processes scan through multi-layer feature extraction.' },
+        { icon: <Zap size={22} />, title: 'AI Analysis', desc: 'CNN model processes scan through multi layer feature extraction.' },
         { icon: <Search size={22} />, title: 'Detection', desc: 'AI identifies, localizes, and classifies potential tumors.' },
         { icon: <Monitor size={22} />, title: 'View Results', desc: 'Review classification, segmentation, and clinical insights.' },
     ];
 
     const tech = [
-        { icon: <Monitor size={24} />, name: 'React + Vite', desc: 'Blazing-fast frontend with HMR and optimized production builds.' },
+        { icon: <Monitor size={24} />, name: 'React + Vite', desc: 'Blazing fast frontend with HMR and optimized production builds.' },
         { icon: <FlaskConical size={24} />, name: 'Flask API', desc: 'Lightweight Python backend for image processing and model inference.' },
         { icon: <Brain size={24} />, name: 'CNN Model', desc: 'Convolutional network trained on 10,000+ labeled brain MRI scans.' },
-        { icon: <Database size={24} />, name: 'DICOM Engine', desc: 'Full DICOM standard support for clinical-grade medical imaging.' },
+        { icon: <Database size={24} />, name: 'DICOM Engine', desc: 'Full DICOM standard support for clinical grade medical imaging.' },
     ];
 
     const users = [
-        { icon: <Stethoscope size={24} />, title: 'Radiologists', desc: 'AI-assisted second opinion for faster, more confident diagnoses.' },
+        { icon: <Stethoscope size={24} />, title: 'Radiologists', desc: 'AI assisted second opinion for faster, more confident diagnoses.' },
         { icon: <Building2 size={24} />, title: 'Hospitals', desc: 'Streamline radiology workflows with integrated AI screening.' },
-        { icon: <Microscope size={24} />, title: 'Researchers', desc: 'Automated analysis for large-scale brain tumor research studies.' },
+        { icon: <Microscope size={24} />, title: 'Researchers', desc: 'Automated analysis for large scale brain tumor research studies.' },
         { icon: <GraduationCap size={24} />, title: 'AI Researchers', desc: 'Benchmark deep learning architectures for medical imaging.' },
     ];
 
@@ -271,18 +271,18 @@ export default function LandingPage({ onGetStarted }) {
                     <div className="nl-hero-content">
                         <div className="nl-hero-badge">
                             <div className="nl-hero-badge-dot" />
-                            <span className="nl-hero-badge-text">AI-Powered Medical Imaging</span>
+                            <span className="nl-hero-badge-text">AI Powered Medical Imaging</span>
                         </div>
 
                         <h1 className="nl-hero-title">
-                            AI-Powered Brain{' '}
+                            AI Powered Brain{' '}
                             <span className="nl-hero-title-gradient">Tumor Detection</span>
                             {' '}& Classification
                         </h1>
 
                         <p className="nl-hero-desc">
-                            Upload MRI brain scans and receive instant AI-driven analysis.
-                            Clinical-grade detection and classification — in under 3 seconds.
+                            Upload MRI brain scans and receive instant AI driven analysis.
+                            Clinical grade detection and classification — in under 3 seconds.
                         </p>
 
                         <div className="nl-hero-actions">
@@ -369,7 +369,7 @@ export default function LandingPage({ onGetStarted }) {
                             Everything You Need for <span>Clinical AI</span>
                         </h2>
                         <p className="nl-section-desc">
-                            A complete AI-powered platform for brain tumor analysis — from upload to diagnosis.
+                            A complete AI powered platform for brain tumor analysis — from upload to diagnosis.
                         </p>
                     </div>
 
@@ -429,7 +429,7 @@ export default function LandingPage({ onGetStarted }) {
                             Built With <span>Modern Technology</span>
                         </h2>
                         <p className="nl-section-desc">
-                            Enterprise-grade architecture for speed, accuracy, and reliability.
+                            Enterprise grade architecture for speed, accuracy, and reliability.
                         </p>
                     </div>
 
@@ -483,7 +483,7 @@ export default function LandingPage({ onGetStarted }) {
                             Meet the <span>Founders</span>
                         </h2>
                         <p className="nl-section-desc">
-                            The minds behind NeuroLens — building the future of AI-powered medical imaging.
+                            The minds behind NeuroLens — building the future of AI powered medical imaging.
                         </p>
                     </div>
 
@@ -501,7 +501,7 @@ export default function LandingPage({ onGetStarted }) {
                                     </div>
                                 </div>
                                 <h3 className="nl-founder-name">{f.name}</h3>
-                                <span className="nl-founder-role">Co-Founder</span>
+                                <span className="nl-founder-role">Co Founder</span>
                                 <div className="nl-founder-socials">
                                     <a href={f.linkedin} target="_blank" rel="noopener noreferrer" className="nl-founder-social" title="LinkedIn">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
