@@ -145,6 +145,7 @@ export default function LandingPage({ onGetStarted }) {
     const isDark = theme === 'dark';
     const [navScrolled, setNavScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const canvasRef = useRef(null);
     const revealRefs = useRef([]);
 
@@ -154,6 +155,14 @@ export default function LandingPage({ onGetStarted }) {
     const scans = useCounter(10000, 2000);
 
     useParticles(canvasRef, isDark);
+
+    /* Preloader */
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 2200);
+        return () => clearTimeout(timer);
+    }, []);
 
     /* Navbar scroll */
     useEffect(() => {
@@ -213,6 +222,21 @@ export default function LandingPage({ onGetStarted }) {
     ];
 
     const navLinks = ['Features', 'How It Works', 'Technology'];
+
+    if (isLoading) {
+        return (
+            <div className={`nl-preloader ${isDark ? '' : 'nl-light'}`}>
+                <div className="nl-preloader-content">
+                    <div className="nl-logo-icon nl-preloader-logo">
+                        <Brain size={48} color="#fff" />
+                    </div>
+                    <div className="nl-logo-text nl-preloader-text">
+                        Neuro<span>Lens</span>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={`nl-landing ${isDark ? '' : 'nl-light'}`}>
