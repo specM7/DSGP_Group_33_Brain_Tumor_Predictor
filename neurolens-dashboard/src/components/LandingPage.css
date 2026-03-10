@@ -1758,17 +1758,11 @@ html {
 }
 
 .nl-preloader.nl-light .nl-preloader-text {
-    color: var(--nl-bg-secondary);
+    color: #1e293b;
 }
 
 .nl-preloader.nl-light .nl-logo-text {
-    color: var(--nl-bg-secondary);
-}
-
-.nl-preloader.nl-light .nl-logo-text span {
-    background: none;
-    -webkit-text-fill-color: var(--nl-bg-secondary);
-    color: var(--nl-bg-secondary);
+    color: #1e293b;
 }
 
 @keyframes nl-preloader-spin {
