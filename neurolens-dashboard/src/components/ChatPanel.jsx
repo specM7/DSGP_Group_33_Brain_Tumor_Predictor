@@ -8,7 +8,7 @@ const initialMessages = [
     },
     {
         type: 'user',
-        text: 'What is the exact volume measurement for the lesion?',
+        text: 'What is the exact volume measurement?',
     },
     {
         type: 'ai',
