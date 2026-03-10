@@ -8,7 +8,7 @@ const initialMessages = [
     },
     {
         type: 'user',
-        text: 'What is the exact volume measurement?',
+        text: 'What is the exact volume measurement in the superior region?',
     },
     {
         type: 'ai',
