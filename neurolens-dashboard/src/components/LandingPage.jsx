@@ -469,7 +469,7 @@ export default function LandingPage({ onGetStarted }) {
 
             <div className="nl-divider" />
 
-            {/* ═══════════ TARGET USERS ═══════ */}
+            {/* ═════════ TARGET USERS ═══════ */}
             <section className="nl-section nl-section-alt">
                 <div className="nl-section-container">
                     <div ref={addRef} className="nl-reveal nl-section-header">
