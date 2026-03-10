@@ -216,6 +216,11 @@
     transition: all 0.3s ease;
 }
 
+.nl-light .nl-navbar .nl-logo-text,
+.nl-light .nl-mobile-menu .nl-logo-text {
+    color: var(--nl-bg-secondary);
+}
+
 .nl-logo-text span {
     background: var(--nl-gradient-1);
     -webkit-background-clip: text;
@@ -1753,7 +1758,17 @@ html {
 }
 
 .nl-preloader.nl-light .nl-preloader-text {
-    color: var(--nl-bg);
+    color: var(--nl-bg-secondary);
+}
+
+.nl-preloader.nl-light .nl-logo-text {
+    color: var(--nl-bg-secondary);
+}
+
+.nl-preloader.nl-light .nl-logo-text span {
+    background: none;
+    -webkit-text-fill-color: var(--nl-bg-secondary);
+    color: var(--nl-bg-secondary);
 }
 
 @keyframes nl-preloader-spin {
