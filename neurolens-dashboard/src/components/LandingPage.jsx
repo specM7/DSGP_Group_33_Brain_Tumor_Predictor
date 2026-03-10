@@ -223,23 +223,21 @@ export default function LandingPage({ onGetStarted }) {
 
     const navLinks = ['Features', 'How It Works', 'Technology'];
 
-    if (isLoading) {
-        return (
-            <div className={`nl-preloader ${isDark ? '' : 'nl-light'}`}>
-                <div className="nl-preloader-content">
-                    <div className="nl-logo-icon nl-preloader-logo">
-                        <Brain size={48} color="#fff" />
-                    </div>
-                    <div className="nl-logo-text nl-preloader-text">
-                        Neuro<span>Lens</span>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className={`nl-landing ${isDark ? '' : 'nl-light'}`}>
+            {isLoading && (
+                <div className={`nl-preloader ${isDark ? '' : 'nl-light'}`}>
+                    <div className="nl-preloader-content">
+                        <div className="nl-logo-icon nl-preloader-logo">
+                            <Brain size={48} color="#fff" />
+                        </div>
+                        <div className="nl-logo-text nl-preloader-text">
+                            Neuro<span>Lens</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* ── Ambient Background ── */}
             <div className="nl-ambient" />
             <canvas ref={canvasRef} className="nl-particles-canvas" />
