@@ -1715,3 +1715,57 @@ html {
     border-color: rgba(99, 102, 241, 0.2);
     color: var(--nl-accent);
 }
+
+/* ═══════════ PRELOADER ═══════════ */
+.nl-preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: var(--nl-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+
+.nl-preloader.nl-light {
+    background: #f8fafc;
+}
+
+.nl-preloader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    animation: nl-pulse-glow 2.5s ease-in-out infinite;
+}
+
+.nl-preloader-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    animation: nl-float 3s ease-in-out infinite, nl-preloader-spin 4s linear infinite;
+}
+
+.nl-preloader-text {
+    font-size: 36px;
+    animation: nl-fadeIn 1s ease forwards, nl-pulse-glow 2.5s ease-in-out infinite;
+}
+
+.nl-preloader.nl-light .nl-preloader-text {
+    color: var(--nl-bg);
+}
+
+@keyframes nl-preloader-spin {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
