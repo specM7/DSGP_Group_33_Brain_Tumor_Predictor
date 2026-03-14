@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import UploadPanel from './components/UploadPanel';
+import ChatPanel from './components/ChatPanel';
 import AnalysisResults from './components/AnalysisResults';
 import LoginPage from './components/LoginPage';
 import LandingPage from './components/LandingPage';
@@ -49,6 +50,7 @@ function App() {
 
         <div className="dashboard-top-row">
           <UploadPanel onImageUpload={setUploadedImage} onPrediction={setPrediction} />
+          <ChatPanel />
         </div>
 
         <AnalysisResults uploadedImage={uploadedImage} prediction={prediction} />
