@@ -1,4 +1,0 @@
-﻿D	Meningioma_Adrian_2425482.ipynb
-D	innit commit
-D	neurolens-dashboard/src/components/ChatPanel.jsx
-D	package-lock.json
