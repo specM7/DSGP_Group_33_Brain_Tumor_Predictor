@@ -6,18 +6,9 @@ import {
     Eye, Play, Sparkles, Sun, Moon, HelpCircle, ChevronDown
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { SignInButton as RealSignIn, SignUpButton as RealSignUp } from '@clerk/clerk-react';
-import malinduImg from '../assets/founders/malindu.jpg';
-import adrianImg from '../assets/founders/adrian.png';
-import viduImg from '../assets/founders/vidu.png';
-import ahshaanImg from '../assets/founders/ahshaan.png';
-import './LandingPage.css';
-
+// Clerk imports removed as we delegate to LoginPage
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const isClerkValid = PUBLISHABLE_KEY && !PUBLISHABLE_KEY.includes("YOUR_CLERK");
-
-const SignInButton = isClerkValid ? RealSignIn : ({ children }) => <div onClick={() => alert("Please add your Clerk Publishable Key in .env.local to enable Sign In!")} style={{display:'inline-block'}}>{children}</div>;
-const SignUpButton = isClerkValid ? RealSignUp : ({ children }) => <div onClick={() => alert("Please add your Clerk Publishable Key in .env.local to enable Sign Up!")} style={{display:'inline-block'}}>{children}</div>;
 
 /* ── Animated Counter ── */
 function useCounter(end, duration = 1800) {
@@ -147,7 +138,7 @@ function useParticles(canvasRef, isDark) {
     }, [canvasRef, isDark]);
 }
 
-export default function LandingPage() {
+export default function LandingPage({ onNavigateLogin }) {
     const { theme, toggleTheme } = useTheme();
     const isDark = theme === 'dark';
     const [navScrolled, setNavScrolled] = useState(false);
@@ -302,12 +293,8 @@ export default function LandingPage() {
                                 </button>
                             );
                         })}
-                        <SignInButton mode="modal">
-                            <button className="nl-btn-secondary" style={{ padding: '8px 16px', fontSize: '13px', marginLeft: '1rem', height: '34px' }}>Sign In</button>
-                        </SignInButton>
-                        <SignUpButton mode="modal">
-                            <button className="nl-btn-primary" style={{ padding: '8px 16px', fontSize: '13px', marginLeft: '0.5rem', height: '34px' }}>Sign Up</button>
-                        </SignUpButton>
+                        <button className="nl-btn-secondary" onClick={onNavigateLogin} style={{ padding: '8px 16px', fontSize: '13px', marginLeft: '1rem', height: '34px', cursor: 'pointer' }}>Sign In</button>
+                        <button className="nl-btn-primary" onClick={onNavigateLogin} style={{ padding: '8px 16px', fontSize: '13px', marginLeft: '0.5rem', height: '34px', cursor: 'pointer' }}>Sign Up</button>
                         <button className="nl-theme-toggle" onClick={toggleTheme} title={isDark ? 'Switch to light mode' : 'Switch to dark mode'} style={{ marginLeft: '1rem' }}>
                             {isDark ? <Sun size={16} /> : <Moon size={16} />}
                         </button>
@@ -329,12 +316,8 @@ export default function LandingPage() {
                         </button>
                     ))}
                     <div style={{ display: 'flex', gap: '10px', marginTop: '1rem', padding: '0 1.5rem' }}>
-                        <SignInButton mode="modal">
-                            <button className="nl-btn-secondary" style={{ flex: 1, justifyContent: 'center' }}>Sign In</button>
-                        </SignInButton>
-                        <SignUpButton mode="modal">
-                            <button className="nl-btn-primary" style={{ flex: 1, justifyContent: 'center' }}>Sign Up</button>
-                        </SignUpButton>
+                        <button className="nl-btn-secondary" onClick={onNavigateLogin} style={{ flex: 1, justifyContent: 'center', cursor: 'pointer' }}>Sign In</button>
+                        <button className="nl-btn-primary" onClick={onNavigateLogin} style={{ flex: 1, justifyContent: 'center', cursor: 'pointer' }}>Sign Up</button>
                     </div>
                 </div>
             </nav>
@@ -356,13 +339,11 @@ export default function LandingPage() {
                         </p>
 
                         <div className="nl-hero-actions">
-                            <SignUpButton mode="modal">
-                                <button className="nl-btn-primary">
-                                    <Brain size={16} />
-                                    Start AI Analysis
-                                    <ArrowRight size={15} />
-                                </button>
-                            </SignUpButton>
+                            <button className="nl-btn-primary" onClick={onNavigateLogin}>
+                                <Brain size={16} />
+                                Start AI Analysis
+                                <ArrowRight size={15} />
+                            </button>
                             <button className="nl-btn-secondary" onClick={() => scrollTo('how-it-works')}>
                                 <Activity size={14} />
                                 See How It Works
@@ -649,12 +630,10 @@ export default function LandingPage() {
                         </p>
 
                         <div className="nl-cta-actions">
-                            <SignUpButton mode="modal">
-                                <button className="nl-btn-primary">
-                                    Start Analyzing Now
-                                    <ArrowRight size={15} />
-                                </button>
-                            </SignUpButton>
+                            <button className="nl-btn-primary" onClick={onNavigateLogin}>
+                                Start Analyzing Now
+                                <ArrowRight size={15} />
+                            </button>
                             <button className="nl-btn-secondary" onClick={() => scrollTo('faq')}>
                                 <HelpCircle size={14} />
                                 View FAQ

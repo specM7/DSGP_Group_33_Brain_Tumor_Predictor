@@ -8,7 +8,7 @@ const initialMessages = [
     },
     {
         type: 'user',
-        text: 'What is the exact volume measurement in the superior region?',
+        text: 'What is the exact volume measurement for the lesion?',
     },
     {
         type: 'ai',
@@ -22,16 +22,6 @@ export default function ChatPanel() {
 
     return (
         <div className="chat-panel">
-            <div className="chat-status-bar">
-                <div className="status-icon">
-                    <Bot size={18} color="#fff" />
-                </div>
-                <div className="status-text">
-                    <span className="status-name">Clinical AI Assistant</span>
-                    <span className="status-online">ALWAYS ONLINE</span>
-                </div>
-            </div>
-
             <div className="chat-messages">
                 {messages.map((msg, i) => (
                     <div key={i} className={`chat-msg ${msg.type}`}>
@@ -43,6 +33,16 @@ export default function ChatPanel() {
                         <div className="msg-bubble">{msg.text}</div>
                     </div>
                 ))}
+            </div>
+
+            <div className="chat-status-bar">
+                <div className="status-icon">
+                    <Bot size={18} color="#fff" />
+                </div>
+                <div className="status-text">
+                    <span className="status-name">Clinical AI Assistant</span>
+                    <span className="status-online">ALWAYS ONLINE</span>
+                </div>
             </div>
 
             <div className="chat-input-area">

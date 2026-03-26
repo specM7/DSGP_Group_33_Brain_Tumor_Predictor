@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const formatBadges = ['DICOM', 'PNG', 'JPG'];
 
-export default function UploadPanel({ onImageUpload, onPrediction }) {
+export default function UploadPanel({ onImageUpload, onPrediction, onError }) {
     const [isDragging, setIsDragging] = useState(false);
     const [fileName, setFileName] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
@@ -15,19 +15,79 @@ export default function UploadPanel({ onImageUpload, onPrediction }) {
     const processFile = (file) => {
         if (!file) return;
         const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/dicom'];
-        if (!validTypes.includes(file.type) && !file.name.match(/\.(dcm|dicom|png|jpg|jpeg)$/i)) {
+        const isDicom = file.name.match(/\.(dcm|dicom)$/i) || file.type === 'application/dicom';
+        
+        if (!validTypes.includes(file.type) && !isDicom && !file.name.match(/\.(png|jpg|jpeg)$/i)) {
             setError('Unsupported file format. Please use DICOM, PNG, or JPG.');
+            onError?.('Unsupported file format. Please use DICOM, PNG, or JPG.');
             return;
         }
 
-        setError(null);
-        setFileName(file.name);
-        setSelectedFile(file);
-
-        // Show image preview immediately
         const reader = new FileReader();
         reader.onload = (e) => {
-            onImageUpload?.(e.target.result);
+            const dataUrl = e.target.result;
+            
+            if (isDicom) {
+                setError(null);
+                onError?.(null);
+                setFileName(file.name);
+                setSelectedFile(file);
+                onImageUpload?.(dataUrl);
+                return;
+            }
+
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                const processWidth = Math.min(img.width, 512);
+                const scale = processWidth / img.width;
+                const processHeight = Math.floor(img.height * scale);
+                
+                canvas.width = processWidth;
+                canvas.height = processHeight;
+                ctx.drawImage(img, 0, 0, processWidth, processHeight);
+
+                const imageData = ctx.getImageData(0, 0, processWidth, processHeight);
+                const data = imageData.data;
+                let colorPixels = 0;
+                let darkPixels = 0;
+                const totalPixels = processWidth * processHeight;
+
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i];
+                    const g = data[i + 1];
+                    const b = data[i + 2];
+
+                    const maxDiff = Math.max(Math.abs(r - g), Math.abs(g - b), Math.abs(r - b));
+                    if (maxDiff > 25) colorPixels++;
+                    if (r < 40 && g < 40 && b < 40) darkPixels++;
+                }
+
+                if (colorPixels / totalPixels > 0.15 || darkPixels / totalPixels < 0.12) {
+                    setError('Invalid scan detected. Please upload a valid MRI image.');
+                    onError?.('Invalid scan detected. Please upload a valid MRI image.');
+                    setFileName(file.name);
+                    setSelectedFile(null); // Ensure backend cannot process it
+                    onImageUpload?.(dataUrl); // Allow backend canvas to show the error overlay on the image!
+                    return;
+                }
+
+                setError(null);
+                onError?.(null);
+                setFileName(file.name);
+                setSelectedFile(file);
+                onImageUpload?.(dataUrl);
+            };
+            img.onerror = () => {
+                setError(null);
+                onError?.(null);
+                setFileName(file.name);
+                setSelectedFile(file);
+                onImageUpload?.(dataUrl);
+            };
+            img.src = dataUrl;
         };
         reader.readAsDataURL(file);
     };
@@ -37,6 +97,7 @@ export default function UploadPanel({ onImageUpload, onPrediction }) {
 
         setIsLoading(true);
         setError(null);
+        onError?.(null);
 
         const formData = new FormData();
         formData.append("file", selectedFile);
@@ -84,6 +145,7 @@ export default function UploadPanel({ onImageUpload, onPrediction }) {
         setFileName(null);
         setSelectedFile(null);
         setError(null);
+        onError?.(null);
         onPrediction?.(null);
         onImageUpload?.(null);
         fileInputRef.current.value = '';
@@ -129,7 +191,7 @@ export default function UploadPanel({ onImageUpload, onPrediction }) {
                                 Analyze MRI
                             </button>
                             <button className="btn-primary" onClick={handleReset}
-                                style={{ background: 'transparent', border: '1px solid var(--color-border)' }}>
+                                style={{ background: 'transparent', border: '1px solid var(--color-border)', color: 'var(--color-text)' }}>
                                 Upload Another
                             </button>
                         </div>
